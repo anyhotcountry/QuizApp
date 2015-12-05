@@ -41,7 +41,7 @@ namespace YouthClubQuizApplication.ViewModels
         private string answer;
         private string imagePath;
         private int questionIndex;
-        private int takeCount;
+        private double takeCount;
 
         public QuizPageViewModel()
         {
@@ -71,7 +71,7 @@ namespace YouthClubQuizApplication.ViewModels
         private async void GameTimer_Tick(object sender, object e)
         {
             gameTimer.Stop();
-            for (int i = 0; i < takeCount; i++)
+            for (int i = 0; i < (int)takeCount; i++)
             {
                 if (Blocks.Count != 0)
                 {
@@ -92,18 +92,18 @@ namespace YouthClubQuizApplication.ViewModels
                 NextQuestion();
             }
 
-            takeCount += (Blocks.Count == 200 || Blocks.Count == 300 || Blocks.Count == 399) ? 1 : 0;
+            takeCount += 0.02;
             gameTimer.Start();
         }
 
         private void NextQuestion()
         {
-            var width = 34;
-            for (int i = 0; i < 22; i++)
+            var width = 4;
+            for (int i = 0; i < 25; i++)
             {
-                for (int j = 0; j < 22; j++)
+                for (int j = 0; j < 25; j++)
                 {
-                    Blocks.Add(new BlockViewModel(283 + width * j, width * i, width, width));
+                    Blocks.Add(new BlockViewModel(width * j, width * i, width, width));
                 }
             }
 

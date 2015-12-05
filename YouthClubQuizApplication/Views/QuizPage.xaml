@@ -16,59 +16,10 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <!--  #region default visual states  -->
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-                <VisualState x:Name="VisualStateNarrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateNormal">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateWide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <!--  #endregion  -->
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <!--  page header  -->
-
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Quiz Page" Frame="{x:Bind Frame}">
-            <Interactivity:Interaction.Behaviors>
-                <Behaviors:EllipsisBehavior Visibility="Auto" />
-            </Interactivity:Interaction.Behaviors>
-            <controls:PageHeader.SecondaryCommands>
-               <!-- <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" /> -->
-            </controls:PageHeader.SecondaryCommands>
-        </controls:PageHeader>
-
-        <!--  page content  -->
-
         <Image Grid.Row="1"
                Name="QuizImage" 
                Source="{Binding Path=ImagePath}" 
@@ -83,31 +34,33 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="200" />
-        <ItemsControl Grid.Row="1" 
-                      ItemsSource="{Binding Path=Blocks}" 
-                      x:Name="ItemsControl" >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Rectangle Height="{Binding Path=Height}" 
-                               Width="{Binding Path=Width}" 
-                               Stroke="DarkBlue" 
-                               StrokeThickness="1" 
-                               Fill="Blue" />                    
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath" 
-                            Value="Left"/>
-                    <Setter Property="helpers:BindingHelper.CanvasTopBindingPath" 
-                            Value="Top"/>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+        <Viewbox Grid.Row="1" HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" 
+               Stretch="Uniform" >
+        <ItemsControl ItemsSource="{Binding Path=Blocks}" x:Name="ItemsControl" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Width="100" Height="100" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Height="{Binding Path=Height}" 
+                                   Width="{Binding Path=Width}" 
+                                   Stroke="DarkBlue" 
+                                   StrokeThickness="0.1" 
+                                   Fill="Blue" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath" 
+                                Value="Left"/>
+                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath" 
+                                Value="Top"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </Viewbox>
     </Grid>
 </Page>
