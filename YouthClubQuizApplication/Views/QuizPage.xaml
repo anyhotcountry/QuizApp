@@ -62,19 +62,27 @@
                 <Behaviors:EllipsisBehavior Visibility="Auto" />
             </Interactivity:Interaction.Behaviors>
             <controls:PageHeader.SecondaryCommands>
-                <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
+               <!-- <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
+                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" /> -->
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
 
-        <!--  page content  -->        
-        
+        <!--  page content  -->
+
         <Image Grid.Row="1"
                Name="QuizImage" 
                Source="{Binding Path=ImagePath}" 
                HorizontalAlignment="Stretch" 
                VerticalAlignment="Stretch" 
-               Stretch="Uniform"/>
+               Stretch="Uniform" />
+        <TextBlock Name="AnswerTextBlock" 
+                   Grid.Row="1"                   
+                   Visibility="Visible"
+                   Foreground="Yellow"
+                   Text="{Binding Path=Answer}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="200" />
         <ItemsControl Grid.Row="1" 
                       ItemsSource="{Binding Path=Blocks}" 
                       x:Name="ItemsControl" >
@@ -89,7 +97,7 @@
                                Width="{Binding Path=Width}" 
                                Stroke="DarkBlue" 
                                StrokeThickness="1" 
-                               Fill="Blue" />
+                               Fill="Blue" />                    
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

@@ -1,40 +1,47 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace YouthClubQuizApplication.ViewModels
 {
     public class QuizPageViewModel : Mvvm.ViewModelBase
     {
-        private readonly DispatcherTimer gameTimer;
-        private readonly Random random;
-        private int takeCount;
-        private int questionIndex;
-
         private static List<string> Questions = new List<string>
         {
-            "Images/Zoomed_Beaver.jpg",
-            "Images/Zoomed_Bobcat.jpg",
-            "Images/Zoomed_Chess.jpg",
-            "Images/Zoomed_Chicken.jpg",
-            "Images/Zoomed_Cork.jpg",
-            "Images/Zoomed_CreditCard.jpg",
-            "Images/Zoomed_Firefly.jpg",
-            "Images/Zoomed_FriedEgg.jpg",
-            "Images/Zoomed_Glasses.jpg",
-            "Images/Zoomed_Jalapeno.jpg",
-            "Images/Zoomed_LavaLamp.jpg",
-            "Images/Zoomed_Legos.jpg",
-            "Images/Zoomed_Megaphone.jpg",
-            "Images/Zoomed_Onion.jpg",
-            "Images/Zoomed_Oyster.jpg",
-            "Images/Zoomed_Plum.jpg",
-            "Images/Zoomed_Shoelace.jpg",
-            "Images/Zoomed_Shrimp.jpg",
-            "Images/Zoomed_Skunk.jpg",
-            "Images/Zoomed_Yam.jpg"
-    };
+            "Zoomed_Beaver.jpg",
+            "Zoomed_Bobcat.jpg",
+            "Zoomed_Chess.jpg",
+            "Zoomed_Chicken.jpg",
+            "Zoomed_Cork.jpg",
+            "Zoomed_CreditCard.jpg",
+            "Zoomed_Firefly.jpg",
+            "Zoomed_FriedEgg.jpg",
+            "Zoomed_Glasses.jpg",
+            "Zoomed_Jalapeno.jpg",
+            "Zoomed_LavaLamp.jpg",
+            "Zoomed_Legos.jpg",
+            "Zoomed_Megaphone.jpg",
+            "Zoomed_Onion.jpg",
+            "Zoomed_Oyster.jpg",
+            "Zoomed_Plum.jpg",
+            "Zoomed_Shoelace.jpg",
+            "Zoomed_Shrimp.jpg",
+            "Zoomed_Skunk.jpg",
+            "Zoomed_Yam.jpg"
+        };
+
+        internal void SetSize(double width, double height)
+        {
+        }
+
+        private readonly DispatcherTimer gameTimer;
+        private readonly Random random;
+        private string answer;
+        private string imagePath;
+        private int questionIndex;
+        private int takeCount;
 
         public QuizPageViewModel()
         {
@@ -43,6 +50,50 @@ namespace YouthClubQuizApplication.ViewModels
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Start();
             NextQuestion();
+        }
+
+        public string Answer
+        {
+            get { return answer; }
+
+            set { Set(ref answer, value); }
+        }
+
+        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
+
+        public string ImagePath
+        {
+            get { return imagePath; }
+
+            set { Set(ref imagePath, value); }
+        }
+
+        private async void GameTimer_Tick(object sender, object e)
+        {
+            gameTimer.Stop();
+            for (int i = 0; i < takeCount; i++)
+            {
+                if (Blocks.Count != 0)
+                {
+                    var index = random.Next(Blocks.Count);
+                    Blocks.RemoveAt(index);
+                }
+            }
+
+            if (Blocks.Count == 0)
+            {
+                Answer = Questions[questionIndex].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
+                await Task.Delay(TimeSpan.FromSeconds(3));
+            }
+
+            if (Blocks.Count == 0 && questionIndex < Questions.Count)
+            {
+                questionIndex++;
+                NextQuestion();
+            }
+
+            takeCount += (Blocks.Count == 200 || Blocks.Count == 300 || Blocks.Count == 399) ? 1 : 0;
+            gameTimer.Start();
         }
 
         private void NextQuestion()
@@ -56,40 +107,9 @@ namespace YouthClubQuizApplication.ViewModels
                 }
             }
 
-            ImagePath = Questions[questionIndex];
+            ImagePath = "Images/" + Questions[questionIndex];
+            Answer = string.Empty;
             takeCount = 1;
-        }
-
-        private void GameTimer_Tick(object sender, object e)
-        {
-            for (int i = 0; i < takeCount; i++)
-            {
-                if (Blocks.Count != 0)
-                {
-                    var index = random.Next(Blocks.Count);
-                    Blocks.RemoveAt(index);
-                }
-                else if (questionIndex < Questions.Count)
-                {
-                    questionIndex++;
-                    NextQuestion();
-                }
-            }
-
-            takeCount += (Blocks.Count == 200 || Blocks.Count == 300) ? 1 : 0;
-        }
-
-
-
-        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
-
-        private string imagePath = "Images/Zoomed_Beaver.jpg";
-
-        public string ImagePath
-        {
-            get { return imagePath; }
-
-            set { Set(ref imagePath, value); }
         }
     }
 }
