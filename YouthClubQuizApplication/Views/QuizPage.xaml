@@ -1,0 +1,105 @@
+<Page x:Class="YouthClubQuizApplication.Views.QuizPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:YouthClubQuizApplication.Views"
+      xmlns:helpers="using:YouthClubQuizApplication.Helpers"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="using:YouthClubQuizApplication.ViewModels" mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:QuizPageViewModel />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <!--  #region default visual states  -->
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!--  #endregion  -->
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!--  page header  -->
+
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Quiz Page" Frame="{x:Bind Frame}">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:EllipsisBehavior Visibility="Auto" />
+            </Interactivity:Interaction.Behaviors>
+            <controls:PageHeader.SecondaryCommands>
+                <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
+                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
+            </controls:PageHeader.SecondaryCommands>
+        </controls:PageHeader>
+
+        <!--  page content  -->        
+        
+        <Image Grid.Row="1"
+               Name="QuizImage" 
+               Source="{Binding Path=ImagePath}" 
+               HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" 
+               Stretch="Uniform"/>
+        <ItemsControl Grid.Row="1" 
+                      ItemsSource="{Binding Path=Blocks}" 
+                      x:Name="ItemsControl" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Height="{Binding Path=Height}" 
+                               Width="{Binding Path=Width}" 
+                               Stroke="DarkBlue" 
+                               StrokeThickness="1" 
+                               Fill="Blue" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath" 
+                            Value="Left"/>
+                    <Setter Property="helpers:BindingHelper.CanvasTopBindingPath" 
+                            Value="Top"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Grid>
+</Page>
