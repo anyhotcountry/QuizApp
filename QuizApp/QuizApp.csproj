@@ -7,8 +7,8 @@
     <ProjectGuid>{C3DA362B-97F5-4AFD-9E63-017C10B872AC}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YouthClubQuizApplication</RootNamespace>
-    <AssemblyName>YouthClubQuizApplication</AssemblyName>
+    <RootNamespace>QuizApp</RootNamespace>
+    <AssemblyName>QuizApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
