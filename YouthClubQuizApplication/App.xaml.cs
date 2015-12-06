@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using YouthClubQuizApplication.Services.SettingsServices;
+using QuizApp.Services.SettingsServices;
 
-namespace YouthClubQuizApplication
+namespace QuizApp
 {
     /// Documentation on APIs used in this page:
     /// https://github.com/Windows-XAML/Template10/wiki

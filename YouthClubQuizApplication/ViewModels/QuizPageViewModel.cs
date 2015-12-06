@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace YouthClubQuizApplication.ViewModels
+namespace QuizApp.ViewModels
 {
     public class QuizPageViewModel : Mvvm.ViewModelBase
     {

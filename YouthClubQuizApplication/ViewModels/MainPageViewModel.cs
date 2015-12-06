@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 
-namespace YouthClubQuizApplication.ViewModels
+namespace QuizApp.ViewModels
 {
     public class MainPageViewModel : Mvvm.ViewModelBase
     {

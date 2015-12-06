@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
 
-namespace YouthClubQuizApplication.ViewModels
+namespace QuizApp.ViewModels
 {
     public class DetailPageViewModel : Mvvm.ViewModelBase
     {

@@ -1,8 +1,8 @@
-using YouthClubQuizApplication.ViewModels;
+using QuizApp.ViewModels;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace YouthClubQuizApplication.Views
+namespace QuizApp.Views
 {
     public sealed partial class SettingsPage : Page
     {

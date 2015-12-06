@@ -1,4 +1,4 @@
-namespace YouthClubQuizApplication.Mvvm
+namespace QuizApp.Mvvm
 {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-MVVM
     public abstract class ViewModelBase : Template10.Mvvm.ViewModelBase

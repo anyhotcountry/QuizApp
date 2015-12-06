@@ -1,7 +1,7 @@
 using System;
 using Windows.UI.Xaml;
 
-namespace YouthClubQuizApplication.Services.SettingsServices
+namespace QuizApp.Services.SettingsServices
 {
     public partial class SettingsService
     {

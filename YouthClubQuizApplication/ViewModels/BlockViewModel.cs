@@ -1,4 +1,4 @@
-﻿namespace YouthClubQuizApplication.ViewModels
+﻿namespace QuizApp.ViewModels
 {
     public class BlockViewModel
     {

@@ -1,7 +1,7 @@
 using System;
 using Windows.UI.Xaml;
 
-namespace YouthClubQuizApplication.ViewModels
+namespace QuizApp.ViewModels
 {
     public class SettingsPageViewModel : Mvvm.ViewModelBase
     {

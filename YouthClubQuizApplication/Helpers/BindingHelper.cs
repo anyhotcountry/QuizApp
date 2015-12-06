@@ -2,7 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace YouthClubQuizApplication.Helpers
+namespace QuizApp.Helpers
 {
     public static class BindingHelper
     {

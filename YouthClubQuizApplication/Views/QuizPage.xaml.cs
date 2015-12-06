@@ -1,7 +1,7 @@
+using QuizApp.ViewModels;
 using Windows.UI.Xaml.Controls;
-using YouthClubQuizApplication.ViewModels;
 
-namespace YouthClubQuizApplication.Views
+namespace QuizApp.Views
 {
     public sealed partial class QuizPage : Page
     {
