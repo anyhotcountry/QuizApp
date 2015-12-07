@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
@@ -11,6 +12,7 @@ namespace QuizApp.ViewModels
     {
         private static List<string> Questions = new List<string>
         {
+            "Zoomed_LavaLamp.jpg",
             "Zoomed_Beaver.jpg",
             "Zoomed_Bobcat.jpg",
             "Zoomed_Chess.jpg",
@@ -21,7 +23,6 @@ namespace QuizApp.ViewModels
             "Zoomed_FriedEgg.jpg",
             "Zoomed_Glasses.jpg",
             "Zoomed_Jalapeno.jpg",
-            "Zoomed_LavaLamp.jpg",
             "Zoomed_Legos.jpg",
             "Zoomed_Megaphone.jpg",
             "Zoomed_Onion.jpg",
@@ -83,7 +84,8 @@ namespace QuizApp.ViewModels
 
             if (Blocks.Count == 0)
             {
-                Answer = Questions[questionIndex].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
+                var answer = Questions[questionIndex].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
+                Answer = Regex.Replace(answer, "(?!^)([A-Z])", " $1").Trim();
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 await new SpeechSynthesizer().SynthesizeTextToStreamAsync(answer);
             }

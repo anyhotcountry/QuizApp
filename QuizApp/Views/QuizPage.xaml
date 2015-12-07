@@ -27,15 +27,12 @@
                VerticalAlignment="Stretch"
                Stretch="Uniform" />
         <Border Grid.Row="1"
-                BorderBrush="Black"
-                BorderThickness="5">
+                Background="Yellow"
+                BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Name="AnswerTextBlock"
-                   Grid.Row="1"
                    Visibility="Visible"
-                   Foreground="Black"
+                   Foreground="DarkBlue"
                    Text="{Binding Path=Answer}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
                    FontSize="100" />
         </Border>
         <Viewbox Grid.Row="1"
