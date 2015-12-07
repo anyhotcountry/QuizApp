@@ -21,23 +21,29 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Image Grid.Row="1"
-               Name="QuizImage" 
-               Source="{Binding Path=ImagePath}" 
-               HorizontalAlignment="Stretch" 
-               VerticalAlignment="Stretch" 
+               Name="QuizImage"
+               Source="{Binding Path=ImagePath}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
                Stretch="Uniform" />
-        <TextBlock Name="AnswerTextBlock" 
-                   Grid.Row="1"                   
+        <Border Grid.Row="1"
+                BorderBrush="Black"
+                BorderThickness="5">
+            <TextBlock Name="AnswerTextBlock"
+                   Grid.Row="1"
                    Visibility="Visible"
-                   Foreground="Yellow"
+                   Foreground="Black"
                    Text="{Binding Path=Answer}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontSize="200" />
-        <Viewbox Grid.Row="1" HorizontalAlignment="Stretch" 
-               VerticalAlignment="Stretch" 
-               Stretch="Uniform" >
-        <ItemsControl ItemsSource="{Binding Path=Blocks}" x:Name="ItemsControl" >
+                   FontSize="100" />
+        </Border>
+        <Viewbox Grid.Row="1"
+                 HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Stretch="Uniform">
+            <ItemsControl ItemsSource="{Binding Path=Blocks}"
+                          x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas Width="100" Height="100" />
@@ -45,19 +51,19 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Height="{Binding Path=Height}" 
-                                   Width="{Binding Path=Width}" 
-                                   Stroke="DarkBlue" 
-                                   StrokeThickness="0.1" 
+                        <Rectangle Height="{Binding Path=Height}"
+                                   Width="{Binding Path=Width}"
+                                   Stroke="DarkBlue"
+                                   StrokeThickness="0.1"
                                    Fill="Blue" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath" 
-                                Value="Left"/>
-                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath" 
-                                Value="Top"/>
+                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath"
+                                Value="Left" />
+                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath"
+                                Value="Top" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>

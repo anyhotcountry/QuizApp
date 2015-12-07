@@ -12,8 +12,13 @@ namespace QuizApp.ViewModels
                 Value = "Designtime value";
         }
 
-        string _Value = string.Empty;
-        public string Value { get { return _Value; } set { Set(ref _Value, value); } }
+        private string _Value = string.Empty;
+
+        public string Value
+        {
+            get { return _Value; }
+            set { Set(ref _Value, value); }
+        }
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
@@ -43,7 +48,5 @@ namespace QuizApp.ViewModels
         {
             NavigationService.Navigate(typeof(Views.SettingsPage), 2);
         }
-
     }
 }
-

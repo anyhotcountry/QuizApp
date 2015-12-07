@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
 
 namespace QuizApp.ViewModels
@@ -84,6 +85,7 @@ namespace QuizApp.ViewModels
             {
                 Answer = Questions[questionIndex].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
                 await Task.Delay(TimeSpan.FromSeconds(3));
+                await new SpeechSynthesizer().SynthesizeTextToStreamAsync(answer);
             }
 
             if (Blocks.Count == 0 && questionIndex < Questions.Count)
@@ -113,4 +115,3 @@ namespace QuizApp.ViewModels
         }
     }
 }
-
