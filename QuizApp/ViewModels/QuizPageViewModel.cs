@@ -116,14 +116,18 @@ namespace QuizApp.ViewModels
                 await Task.Delay(TimeSpan.FromSeconds(3));
             }
 
-            if (Blocks.Count == 0 && questionIndex <= Questions.Count)
+            if (Blocks.Count == 0 && questionIndex < Questions.Count)
             {
                 QuestionIndex++;
                 NextQuestion();
+                gameTimer.Start();
             }
 
-            takeCount += 0.02;
-            gameTimer.Start();
+            if (Blocks.Count > 0)
+            {
+                takeCount += 0.02;
+                gameTimer.Start();
+            }
         }
 
         private void NextQuestion()
@@ -140,7 +144,11 @@ namespace QuizApp.ViewModels
             ImagePath = "Images/" + Questions[questionIndex - 1];
             Answer = string.Empty;
             IsCollapsed = true;
+#if DEBUG
+            takeCount = 50;
+#else
             takeCount = 1;
+#endif
         }
     }
 }
