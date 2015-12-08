@@ -173,6 +173,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\WJYCIcon.xaml">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="Styles\Custom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
