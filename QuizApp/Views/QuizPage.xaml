@@ -20,6 +20,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <ContentControl Grid.Row="1" Content="{Binding SoundPlayer}" />
+        <TextBlock Grid.Row="1"
+                   Margin="20,0,0,0"
+                   Name="NumberTextBlock"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Visibility="Visible"
+                   Foreground="Yellow"
+                   Text="{Binding Path=QuestionIndex}"
+                   FontSize="100" />
         <Image Grid.Row="1"
                Name="QuizImage"
                Source="{Binding Path=ImagePath}"
@@ -28,8 +38,11 @@
                Stretch="Uniform" />
         <Border Grid.Row="1"
                 Background="Yellow"
-                BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Name="AnswerTextBlock"
+                BorderThickness="5" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <TextBlock Margin="0"
+                   Name="AnswerTextBlock"
                    Visibility="Visible"
                    Foreground="DarkBlue"
                    Text="{Binding Path=Answer}"

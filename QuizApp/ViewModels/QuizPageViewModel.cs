@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace QuizApp.ViewModels
 {
@@ -34,22 +35,20 @@ namespace QuizApp.ViewModels
             "Zoomed_Yam.jpg"
         };
 
-        internal void SetSize(double width, double height)
-        {
-        }
-
         private readonly DispatcherTimer gameTimer;
         private readonly Random random;
         private string answer;
         private string imagePath;
-        private int questionIndex;
+        private int questionIndex = 1;
         private double takeCount;
+        private readonly MediaElement mediaElement;
 
         public QuizPageViewModel()
         {
             random = new Random();
+            mediaElement = new MediaElement();
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-            gameTimer.Tick += GameTimer_Tick;
+            gameTimer.Tick += (s, e) => GameTimerOnTick();
             gameTimer.Start();
             NextQuestion();
         }
@@ -61,6 +60,18 @@ namespace QuizApp.ViewModels
             set { Set(ref answer, value); }
         }
 
+        public int QuestionIndex
+        {
+            get { return questionIndex; }
+
+            set { Set(ref questionIndex, value); }
+        }
+
+        public MediaElement SoundPlayer
+        {
+            get { return mediaElement; }
+        }
+
         public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
 
         public string ImagePath
@@ -70,7 +81,7 @@ namespace QuizApp.ViewModels
             set { Set(ref imagePath, value); }
         }
 
-        private async void GameTimer_Tick(object sender, object e)
+        private async void GameTimerOnTick()
         {
             gameTimer.Stop();
             for (int i = 0; i < (int)takeCount; i++)
@@ -84,15 +95,21 @@ namespace QuizApp.ViewModels
 
             if (Blocks.Count == 0)
             {
-                var answer = Questions[questionIndex].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
-                Answer = Regex.Replace(answer, "(?!^)([A-Z])", " $1").Trim();
+                var answerRaw = Questions[questionIndex - 1].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
+                Answer = Regex.Replace(answerRaw, "(?!^)([A-Z])", " $1").Trim();
+                using (var speechSynthesizer = new SpeechSynthesizer())
+                {
+                    var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(answer);
+                    mediaElement.SetSource(stream, stream.ContentType);
+                    mediaElement.Play();
+                }
+
                 await Task.Delay(TimeSpan.FromSeconds(3));
-                await new SpeechSynthesizer().SynthesizeTextToStreamAsync(answer);
             }
 
-            if (Blocks.Count == 0 && questionIndex < Questions.Count)
+            if (Blocks.Count == 0 && questionIndex <= Questions.Count)
             {
-                questionIndex++;
+                QuestionIndex++;
                 NextQuestion();
             }
 
@@ -111,7 +128,7 @@ namespace QuizApp.ViewModels
                 }
             }
 
-            ImagePath = "Images/" + Questions[questionIndex];
+            ImagePath = "Images/" + Questions[questionIndex - 1];
             Answer = string.Empty;
             takeCount = 1;
         }
