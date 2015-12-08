@@ -36,12 +36,13 @@ namespace QuizApp.ViewModels
         };
 
         private readonly DispatcherTimer gameTimer;
+        private readonly MediaElement mediaElement;
         private readonly Random random;
         private string answer;
         private string imagePath;
+        private bool isCollapsed;
         private int questionIndex = 1;
         private double takeCount;
-        private readonly MediaElement mediaElement;
 
         public QuizPageViewModel()
         {
@@ -60,6 +61,22 @@ namespace QuizApp.ViewModels
             set { Set(ref answer, value); }
         }
 
+        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
+
+        public string ImagePath
+        {
+            get { return imagePath; }
+
+            set { Set(ref imagePath, value); }
+        }
+
+        public bool IsCollapsed
+        {
+            get { return isCollapsed; }
+
+            set { Set(ref isCollapsed, value); }
+        }
+
         public int QuestionIndex
         {
             get { return questionIndex; }
@@ -70,15 +87,6 @@ namespace QuizApp.ViewModels
         public MediaElement SoundPlayer
         {
             get { return mediaElement; }
-        }
-
-        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
-
-        public string ImagePath
-        {
-            get { return imagePath; }
-
-            set { Set(ref imagePath, value); }
         }
 
         private async void GameTimerOnTick()
@@ -97,6 +105,7 @@ namespace QuizApp.ViewModels
             {
                 var answerRaw = Questions[questionIndex - 1].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
                 Answer = Regex.Replace(answerRaw, "(?!^)([A-Z])", " $1").Trim();
+                IsCollapsed = false;
                 using (var speechSynthesizer = new SpeechSynthesizer())
                 {
                     var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(answer);
@@ -130,6 +139,7 @@ namespace QuizApp.ViewModels
 
             ImagePath = "Images/" + Questions[questionIndex - 1];
             Answer = string.Empty;
+            IsCollapsed = true;
             takeCount = 1;
         }
     }
