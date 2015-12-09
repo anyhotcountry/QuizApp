@@ -12,6 +12,6 @@ namespace QuizApp.Views
         }
 
         // strongly-typed view models enable x:bind
-        public QuizPageViewModel ViewModel => this.DataContext as QuizPageViewModel;
+        public QuizPageViewModel ViewModel => (DataContext as QuizPageViewModel);
     }
 }

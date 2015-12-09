@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QuizApp</RootNamespace>
     <AssemblyName>QuizApp</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultLanguage>en-us</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
@@ -93,26 +93,26 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Images\Zoomed_Beaver.jpg" />
-    <Content Include="Views\Images\Zoomed_Bobcat.jpg" />
-    <Content Include="Views\Images\Zoomed_Chess.jpg" />
-    <Content Include="Views\Images\Zoomed_Chicken.jpg" />
-    <Content Include="Views\Images\Zoomed_Cork.jpg" />
-    <Content Include="Views\Images\Zoomed_CreditCard.jpg" />
-    <Content Include="Views\Images\Zoomed_Firefly.jpg" />
-    <Content Include="Views\Images\Zoomed_FriedEgg.jpg" />
-    <Content Include="Views\Images\Zoomed_Glasses.jpg" />
-    <Content Include="Views\Images\Zoomed_Jalapeno.jpg" />
-    <Content Include="Views\Images\Zoomed_LavaLamp.jpg" />
-    <Content Include="Views\Images\Zoomed_Legos.jpg" />
-    <Content Include="Views\Images\Zoomed_Megaphone.jpg" />
-    <Content Include="Views\Images\Zoomed_Onion.jpg" />
-    <Content Include="Views\Images\Zoomed_Oyster.jpg" />
-    <Content Include="Views\Images\Zoomed_Plum.jpg" />
-    <Content Include="Views\Images\Zoomed_Shoelace.jpg" />
-    <Content Include="Views\Images\Zoomed_Shrimp.jpg" />
-    <Content Include="Views\Images\Zoomed_Skunk.jpg" />
-    <Content Include="Views\Images\Zoomed_Yam.jpg" />
+    <Content Include="Views\Images\Zoomed_BarbedWire.jpg" />
+    <Content Include="Views\Images\Zoomed_Boar.jpg" />
+    <Content Include="Views\Images\Zoomed_Charcoal.jpg" />
+    <Content Include="Views\Images\Zoomed_Chick.jpg" />
+    <Content Include="Views\Images\Zoomed_Cotton.jpg" />
+    <Content Include="Views\Images\Zoomed_Crab.jpg" />
+    <Content Include="Views\Images\Zoomed_Flute.jpg" />
+    <Content Include="Views\Images\Zoomed_Fossil.jpg" />
+    <Content Include="Views\Images\Zoomed_GoldChain.jpg" />
+    <Content Include="Views\Images\Zoomed_Handcuffs.jpg" />
+    <Content Include="Views\Images\Zoomed_Hawk.jpg" />
+    <Content Include="Views\Images\Zoomed_Honeycomb.jpg" />
+    <Content Include="Views\Images\Zoomed_HorseShoe.jpg" />
+    <Content Include="Views\Images\Zoomed_Lipstick.jpg" />
+    <Content Include="Views\Images\Zoomed_Mango.jpg" />
+    <Content Include="Views\Images\Zoomed_Nectarine.jpg" />
+    <Content Include="Views\Images\Zoomed_Olives.jpg" />
+    <Content Include="Views\Images\Zoomed_Pan.jpg" />
+    <Content Include="Views\Images\Zoomed_Shotgun.jpg" />
+    <Content Include="Views\Images\Zoomed_TeePee.jpg" />
     <None Include="YouthClubQuizApplication_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
@@ -121,6 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BindingHelper.cs" />
+    <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SettingsServices\ISettingsService.cs" />
@@ -176,6 +177,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\WJYCIcon.xaml">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="Styles\Custom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

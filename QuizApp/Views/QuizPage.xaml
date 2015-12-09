@@ -9,7 +9,13 @@
       xmlns:local="using:QuizApp.Views"
       xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:QuizApp.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:QuizApp.ViewModels"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="TrueToVisibleConverter" />
+        <helpers:BooleanToVisibilityConverter x:Key="FalseToVisibleConverter" IsReversed="True" />
+    </Page.Resources>
 
     <Page.DataContext>
         <vm:QuizPageViewModel />
@@ -20,24 +26,43 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image Grid.Row="1"
-               Name="QuizImage" 
-               Source="{Binding Path=ImagePath}" 
-               HorizontalAlignment="Stretch" 
-               VerticalAlignment="Stretch" 
-               Stretch="Uniform" />
-        <TextBlock Name="AnswerTextBlock" 
-                   Grid.Row="1"                   
+        <ContentControl Grid.Row="1"
+                        Content="{Binding SoundPlayer}" />
+        <TextBlock Grid.Row="1"
+                   Margin="20,0,0,0"
+                   Name="NumberTextBlock"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
                    Visibility="Visible"
                    Foreground="Yellow"
+                   Text="{Binding Path=QuestionIndex}"
+                   FontSize="100" />
+        <Image Grid.Row="1"
+               Name="QuizImage"
+               Source="{Binding Path=ImagePath}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Stretch="Uniform" />
+        <Border Grid.Row="1"
+                Background="Yellow"
+                BorderThickness="5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="50"
+                Visibility="{Binding IsCollapsed, Converter={StaticResource FalseToVisibleConverter}}">
+            <TextBlock Margin="10"
+                   Name="AnswerTextBlock"
+                   Visibility="Visible"
+                   Foreground="DarkBlue"
                    Text="{Binding Path=Answer}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="200" />
-        <Viewbox Grid.Row="1" HorizontalAlignment="Stretch" 
-               VerticalAlignment="Stretch" 
-               Stretch="Uniform" >
-        <ItemsControl ItemsSource="{Binding Path=Blocks}" x:Name="ItemsControl" >
+                   FontSize="100" />
+        </Border>
+        <Viewbox Grid.Row="1"
+                 HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Stretch="Uniform">
+            <ItemsControl ItemsSource="{Binding Path=Blocks}"
+                          x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas Width="100" Height="100" />
@@ -45,19 +70,19 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Height="{Binding Path=Height}" 
-                                   Width="{Binding Path=Width}" 
-                                   Stroke="DarkBlue" 
-                                   StrokeThickness="0.1" 
+                        <Rectangle Height="{Binding Path=Height}"
+                                   Width="{Binding Path=Width}"
+                                   Stroke="DarkBlue"
+                                   StrokeThickness="0.1"
                                    Fill="Blue" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath" 
-                                Value="Left"/>
-                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath" 
-                                Value="Top"/>
+                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath"
+                                Value="Left" />
+                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath"
+                                Value="Top" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>

@@ -24,7 +24,12 @@ namespace QuizApp.Views
         public string BusyText { get; set; } = "Please wait...";
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static void SetBusy(bool busy, string text = null)
+        public static void SetBusy(bool busy)
+        {
+            SetBusy(busy, null);
+        }
+
+        public static void SetBusy(bool busy, string text)
         {
             WindowWrapper.Current().Dispatcher.Dispatch(() =>
             {
