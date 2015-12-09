@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
@@ -38,6 +41,20 @@ namespace QuizApp.ViewModels
         {
             NavigationService.Navigate(typeof(Views.DetailPage), Value);
         }
+
+        public async void SelectFiles()
+        {
+            var folderPicker = new FolderPicker();
+            folderPicker.SuggestedStartLocation = PickerLocationId.Downloads;
+            folderPicker.FileTypeFilter.Add(".jpg");
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+                NavigationService.Navigate(typeof(Views.QuizPage), folder);
+            }
+        }
+
 
         public void GotoPrivacy()
         {

@@ -1,40 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Media.SpeechSynthesis;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
 {
     public class QuizPageViewModel : Mvvm.ViewModelBase
     {
-        private static List<string> Questions = new List<string>
-        {
-            "Zoomed_LavaLamp.jpg",
-            "Zoomed_Beaver.jpg",
-            "Zoomed_Bobcat.jpg",
-            "Zoomed_Chess.jpg",
-            "Zoomed_Chicken.jpg",
-            "Zoomed_Cork.jpg",
-            "Zoomed_CreditCard.jpg",
-            "Zoomed_Firefly.jpg",
-            "Zoomed_FriedEgg.jpg",
-            "Zoomed_Glasses.jpg",
-            "Zoomed_Jalapeno.jpg",
-            "Zoomed_Legos.jpg",
-            "Zoomed_Megaphone.jpg",
-            "Zoomed_Onion.jpg",
-            "Zoomed_Oyster.jpg",
-            "Zoomed_Plum.jpg",
-            "Zoomed_Shoelace.jpg",
-            "Zoomed_Shrimp.jpg",
-            "Zoomed_Skunk.jpg",
-            "Zoomed_Yam.jpg"
-        };
-
+        private List<string> Questions;
         private readonly DispatcherTimer gameTimer;
         private readonly MediaElement mediaElement;
         private readonly Random random;
@@ -50,8 +30,16 @@ namespace QuizApp.ViewModels
             mediaElement = new MediaElement();
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
             gameTimer.Tick += (s, e) => GameTimerOnTick();
-            gameTimer.Start();
-            NextQuestion();
+        }
+
+        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            var folder = parameter as StorageFolder;
+            if (folder != null)
+            {
+                Questions = folder.GetItemsAsync().GetResults().Select(r => r.Path).ToList();
+                NextQuestion();
+            }
         }
 
         public string Answer

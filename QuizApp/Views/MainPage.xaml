@@ -71,25 +71,8 @@
         <StackPanel Grid.Row="1" VerticalAlignment="Top"
                     Orientation="Horizontal" Padding="12,8,0,0">
 
-            <controls:Resizer>
-                <TextBox Width="200" MinWidth="200"
-                         MinHeight="60" Margin="0"
-                         Header="Parameter to pass"
-                         Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         TextWrapping="Wrap">
-                    <Interactivity:Interaction.Behaviors>
-                        <Behaviors:TextBoxEnterKeyBehavior>
-                            <Core:CallMethodAction MethodName="GotoDetailsPage" TargetObject="{Binding}" />
-                        </Behaviors:TextBoxEnterKeyBehavior>
-                        <Core:EventTriggerBehavior>
-                            <Behaviors:FocusAction/>
-                        </Core:EventTriggerBehavior>
-                    </Interactivity:Interaction.Behaviors>
-                </TextBox>
-            </controls:Resizer>
-
             <Button Margin="12,0" VerticalAlignment="Bottom"
-                    Click="{x:Bind ViewModel.GotoDetailsPage}" Content="Submit" />
+                    Click="{x:Bind ViewModel.SelectFiles}" Content="Select Files" />
 
         </StackPanel>
 
