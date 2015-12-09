@@ -9,7 +9,8 @@
       xmlns:local="using:QuizApp.Views"
       xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:QuizApp.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:QuizApp.ViewModels"
+      mc:Ignorable="d">
 
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="TrueToVisibleConverter" />
@@ -25,7 +26,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ContentControl Grid.Row="1" Content="{Binding SoundPlayer}" />
+        <ContentControl Grid.Row="1"
+                        Content="{Binding SoundPlayer}" />
         <TextBlock Grid.Row="1"
                    Margin="20,0,0,0"
                    Name="NumberTextBlock"
@@ -46,6 +48,7 @@
                 BorderThickness="5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                CornerRadius="50"
                 Visibility="{Binding IsCollapsed, Converter={StaticResource FalseToVisibleConverter}}">
             <TextBlock Margin="10"
                    Name="AnswerTextBlock"
