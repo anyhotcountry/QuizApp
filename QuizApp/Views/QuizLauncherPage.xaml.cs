@@ -27,8 +27,9 @@ namespace QuizApp.Views
                 secondViewId = ApplicationView.GetForCurrentView().Id;
 
                 var rootFrame = new Frame();
-                Window.Current.Content = rootFrame;
                 rootFrame.Navigate(typeof(QuizPage), null);
+                Window.Current.Content = rootFrame;
+                Window.Current.Activate();
             });
 
             if (secondViewId.HasValue)
