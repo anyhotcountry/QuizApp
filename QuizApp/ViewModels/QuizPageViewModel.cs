@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Media.SpeechSynthesis;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace QuizApp.ViewModels
 {
@@ -19,7 +19,7 @@ namespace QuizApp.ViewModels
         private readonly MediaElement mediaElement;
         private readonly Random random;
         private string answer;
-        private string imagePath;
+        private BitmapImage imageSource;
         private bool isCollapsed;
         private int questionIndex = 1;
         private double takeCount;
@@ -30,16 +30,7 @@ namespace QuizApp.ViewModels
             mediaElement = new MediaElement();
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
             gameTimer.Tick += (s, e) => GameTimerOnTick();
-        }
-
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
-            var folder = parameter as StorageFolder;
-            if (folder != null)
-            {
-                Questions = folder.GetItemsAsync().GetResults().Select(r => r.Path).ToList();
-                NextQuestion();
-            }
+            gameTimer.Start();
         }
 
         public string Answer
@@ -51,11 +42,11 @@ namespace QuizApp.ViewModels
 
         public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
 
-        public string ImagePath
+        public BitmapImage ImageSource
         {
-            get { return imagePath; }
+            get { return imageSource; }
 
-            set { Set(ref imagePath, value); }
+            set { Set(ref imageSource, value); }
         }
 
         public bool IsCollapsed
@@ -80,6 +71,24 @@ namespace QuizApp.ViewModels
         private async void GameTimerOnTick()
         {
             gameTimer.Stop();
+            if (Questions == null)
+            {
+                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Quiz");
+                if (folder == null)
+                {
+                    return;
+                }
+
+                var files = await folder.GetFilesAsync();
+                Questions = new List<string>();
+                foreach (var item in files)
+                {
+                    Questions.Add(item.Path);
+                }
+
+                NextQuestion();
+            }
+
             for (int i = 0; i < (int)takeCount; i++)
             {
                 if (Blocks.Count != 0)
@@ -91,7 +100,8 @@ namespace QuizApp.ViewModels
 
             if (Blocks.Count == 0)
             {
-                var answerRaw = Questions[questionIndex - 1].Replace("Zoomed_", string.Empty).Replace(".jpg", string.Empty);
+                var answerRaw = Path.GetFileNameWithoutExtension(Questions[questionIndex - 1]);
+                answerRaw = answerRaw.Replace("Zoomed_", string.Empty).Replace("_", " ");
                 Answer = Regex.Replace(answerRaw, "(?!^)([A-Z])", " $1").Trim();
                 IsCollapsed = false;
                 using (var speechSynthesizer = new SpeechSynthesizer())
@@ -118,7 +128,7 @@ namespace QuizApp.ViewModels
             }
         }
 
-        private void NextQuestion()
+        private async void NextQuestion()
         {
             var width = 4;
             for (int i = 0; i < 25; i++)
@@ -129,7 +139,12 @@ namespace QuizApp.ViewModels
                 }
             }
 
-            ImagePath = "Images/" + Questions[questionIndex - 1];
+            var file = await StorageFile.GetFileFromPathAsync(Questions[questionIndex - 1]);
+            var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            var img = new BitmapImage();
+            img.SetSource(fileStream);
+
+            ImageSource = img;
             Answer = string.Empty;
             IsCollapsed = true;
 #if DEBUG

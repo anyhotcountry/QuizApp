@@ -37,11 +37,6 @@ namespace QuizApp.ViewModels
             await Task.Yield();
         }
 
-        public void GotoDetailsPage()
-        {
-            NavigationService.Navigate(typeof(Views.DetailPage), Value);
-        }
-
         public async void SelectFiles()
         {
             var folderPicker = new FolderPicker();
