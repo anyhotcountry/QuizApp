@@ -72,7 +72,7 @@
                 Background="Blue"
                 BorderBrush="DarkBlue"
                 BorderThickness="5"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 CornerRadius="25" >
             <TextBlock Margin="20"

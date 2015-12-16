@@ -118,7 +118,7 @@ namespace QuizApp.ViewModels
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
 #if DEBUG
-            takeCount = 1;
+            takeCount = 25;
 #else
             takeCount = 1;
 #endif
