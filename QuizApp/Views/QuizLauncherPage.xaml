@@ -17,12 +17,16 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
-            <Button Click="Button_Click" Content="Launch" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Grid>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Quiz Launch Page" Frame="{x:Bind Frame}">
+        </controls:PageHeader>
 
-        <!--  #endregion  -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Top"
+                    Orientation="Horizontal" Padding="12,8,0,0">
 
+            <Button Margin="12,0" VerticalAlignment="Bottom"
+                    Click="Button_Click" Content="Start Quiz" />
+
+        </StackPanel>
     </Grid>
 </Page>
 

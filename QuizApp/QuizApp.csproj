@@ -102,17 +102,32 @@
     </Compile>
     <Compile Include="Helpers\BindingHelper.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\DynamicDataTemplateSelector.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\QuestionsService.cs" />
     <Compile Include="Services\SettingsServices\ISettingsService.cs" />
     <Compile Include="Services\SettingsServices\SettingsService.Apply.cs" />
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="ViewModels\BlockViewModel.cs" />
+    <Compile Include="ViewModels\IQuestionViewModel.cs" />
+    <Compile Include="ViewModels\AnswersPageViewModel.cs" />
+    <Compile Include="ViewModels\TriviaQuestionViewModel.cs" />
+    <Compile Include="ViewModels\PhotoQuestionViewModel.cs" />
     <Compile Include="ViewModels\QuizPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="Views\AnswersPage.xaml.cs">
+      <DependentUpon>AnswersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TriviaQuestion.xaml.cs">
+      <DependentUpon>TriviaQuestion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\QuizLauncherPage.xaml.cs">
       <DependentUpon>QuizLauncherPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhotoQuestion.xaml.cs">
+      <DependentUpon>PhotoQuestion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuizPage.xaml.cs">
       <DependentUpon>QuizPage.xaml</DependentUpon>
@@ -156,12 +171,28 @@
     <Content Include="Assets\WJYCIcon.xaml">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="DataTemplates\Templates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Custom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\AnswersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TriviaQuestion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\QuizLauncherPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PhotoQuestion.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

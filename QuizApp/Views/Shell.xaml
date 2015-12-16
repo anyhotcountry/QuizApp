@@ -25,7 +25,13 @@
                             <SymbolIcon Width="48" Height="48" Symbol="Emoji" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Quiz" />
                         </StackPanel>
-                    </Controls:HamburgerButtonInfo>                
+                    </Controls:HamburgerButtonInfo>
+                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:AnswersPage">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Width="48" Height="48" Symbol="Bullets" />
+                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Answers" />
+                        </StackPanel>
+                    </Controls:HamburgerButtonInfo>
                 </Controls:HamburgerMenu.PrimaryButtons>
 
                 <Controls:HamburgerMenu.SecondaryButtons>
