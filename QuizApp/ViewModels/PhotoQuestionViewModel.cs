@@ -24,6 +24,8 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
+        public event EventHandler TextBlockAnimationEvent;
+
         public PhotoQuestionViewModel(string filename, int index, MediaElement mediaElement)
         {
             this.filename = filename;
@@ -90,6 +92,7 @@ namespace QuizApp.ViewModels
             if (Blocks.Count == 0)
             {
                 IsCollapsed = false;
+                TextBlockAnimationEvent?.Invoke(this, EventArgs.Empty);
                 using (var speechSynthesizer = new SpeechSynthesizer())
                 {
                     var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(answer);
