@@ -1,8 +1,8 @@
+using QuizApp.Services.SettingsServices;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using QuizApp.Services.SettingsServices;
 
 namespace QuizApp
 {
@@ -15,9 +15,6 @@ namespace QuizApp
 
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
             SplashFactory = (e) => new Views.Splash(e);
 
