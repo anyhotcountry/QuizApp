@@ -19,7 +19,7 @@
     </Page.Resources>
 
     <Page.DataContext>
-        <vm:QuizPageViewModel />
+        <Binding Path="QuizPageViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
