@@ -2,19 +2,18 @@ using QuizApp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.Media.SpeechSynthesis;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace QuizApp.ViewModels
 {
     public class TriviaQuestionViewModel : Mvvm.ViewModelBase, IQuestionViewModel
     {
         private readonly DispatcherTimer gameTimer;
-        private readonly MediaElement mediaElement;
+        private readonly IMediaService mediaService;
         private readonly Random random;
         private readonly string filename;
+        private readonly IQuestionsService questionsService;
         private string answer;
         private string question;
         private int questionIndex = 1;
@@ -22,12 +21,13 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
-        public TriviaQuestionViewModel(string filename, int index, MediaElement mediaElement)
+        public TriviaQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
         {
             this.filename = filename;
             QuestionIndex = index;
             random = new Random();
-            this.mediaElement = mediaElement;
+            this.mediaService = mediaService;
+            this.questionsService = questionsService;
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
             gameTimer.Tick += (s, e) => GameTimerOnTick();
             gameTimer.Start();
@@ -56,9 +56,10 @@ namespace QuizApp.ViewModels
             set { Set(ref questionIndex, value); }
         }
 
-        public MediaElement SoundPlayer
+        public void Stop()
         {
-            get { return mediaElement; }
+            gameTimer.Stop();
+            Blocks.Clear();
         }
 
         private async void GameTimerOnTick()
@@ -67,12 +68,7 @@ namespace QuizApp.ViewModels
             if (answer == null)
             {
                 await ShowQuestion();
-                using (var speechSynthesizer = new SpeechSynthesizer())
-                {
-                    var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(question);
-                    mediaElement.SetSource(stream, stream.ContentType);
-                    mediaElement.Play();
-                }
+                await mediaService.SpeakAsync(question);
             }
 
             for (int i = 0; i < (int)takeCount; i++)
@@ -86,13 +82,7 @@ namespace QuizApp.ViewModels
 
             if (Blocks.Count == 0)
             {
-                using (var speechSynthesizer = new SpeechSynthesizer())
-                {
-                    var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(answer);
-                    mediaElement.SetSource(stream, stream.ContentType);
-                    mediaElement.Play();
-                }
-
+                await mediaService.SpeakAsync(answer);
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 QuestionFinished?.Invoke(this, EventArgs.Empty);
             }
@@ -114,7 +104,7 @@ namespace QuizApp.ViewModels
                 }
             }
 
-            Answer = QuestionsService.Instance.GetAnswer(filename);
+            Answer = questionsService.GetAnswer(filename);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
 #if DEBUG

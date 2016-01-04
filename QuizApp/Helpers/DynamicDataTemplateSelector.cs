@@ -1,4 +1,5 @@
 ﻿using System;
+using Template10.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -18,7 +19,7 @@ namespace QuizApp.Helpers
 
             try
             {
-                result = App.Current.Resources[typeName + "Template"] as DataTemplate;
+                result = BootStrapper.Current.Resources[typeName + "Template"] as DataTemplate;
             }
             catch (Exception)
             {

@@ -11,7 +11,6 @@ namespace QuizApp.Views
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
         }
 
-        // strongly-typed view models enable x:bind
         public QuizPageViewModel ViewModel => (DataContext as QuizPageViewModel);
     }
 }

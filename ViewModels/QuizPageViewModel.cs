@@ -1,30 +1,34 @@
+using QuizApp.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Template10.Mvvm;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace QuizApp.ViewModels
 {
     public class QuizPageViewModel : Mvvm.ViewModelBase
     {
+        private readonly IQuestionsService questionsService;
         private readonly List<string> questions;
-        private readonly MediaElement mediaElement;
+        private readonly IMediaService mediaService;
+        private readonly IPresentationService presentationService;
         private int questionIndex;
         private IQuestionViewModel currentViewModel;
+        private DelegateCommand launchCommand;
 
-        public QuizPageViewModel()
+        public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IPresentationService presentationService)
         {
+            this.questionsService = questionsService;
             questions = new List<string>();
-            mediaElement = new MediaElement();
-            Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => LoadQuestions());
+            this.mediaService = mediaService;
+            this.presentationService = presentationService;
         }
 
-        public MediaElement SoundPlayer
+        public object SoundPlayer
         {
-            get { return mediaElement; }
+            get { return mediaService.MediaElement; }
         }
 
         public IQuestionViewModel CurrentViewModel
@@ -32,6 +36,28 @@ namespace QuizApp.ViewModels
             get { return currentViewModel; }
 
             private set { Set(ref currentViewModel, value); }
+        }
+
+        public DelegateCommand LaunchCommand => launchCommand ?? (launchCommand = new DelegateCommand(LaunchExecute, LaunchCanExecute));
+
+        private bool LaunchCanExecute()
+        {
+            return true;
+        }
+
+        private async void LaunchExecute()
+        {
+            await presentationService.ProjectAsync();
+        }
+
+        public void OnUnLoaded()
+        {
+            CurrentViewModel?.Stop();
+        }
+
+        public async Task OnLoaded()
+        {
+            await LoadQuestions();
         }
 
         private async Task LoadQuestions()
@@ -59,14 +85,18 @@ namespace QuizApp.ViewModels
                 var extension = Path.GetExtension(filename);
                 if (extension == ".txt")
                 {
-                    CurrentViewModel = new TriviaQuestionViewModel(filename, ++questionIndex, mediaElement);
+                    CurrentViewModel = new TriviaQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
-
-                if (extension == ".jpg" || extension == ".png")
+                else if (extension == ".jpg" || extension == ".png")
                 {
-                    CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, mediaElement);
+                    CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
+                }
+                else
+                {
+                    questionIndex++;
+                    ChangeViewModel();
                 }
             }
             else

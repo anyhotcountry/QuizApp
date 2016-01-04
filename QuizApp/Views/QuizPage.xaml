@@ -10,12 +10,10 @@
       xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:QuizApp.ViewModels"
-      mc:Ignorable="d">
+      mc:Ignorable="d" Loaded="{x:Bind ViewModel.OnLoaded}" Unloaded="{x:Bind ViewModel.OnUnLoaded}">
 
     <Page.Resources>
         <helpers:DynamicDataTemplateSelector x:Key="DynamicDataTemplateSelector" />
-        <helpers:BooleanToVisibilityConverter x:Key="TrueToVisibleConverter" />
-        <helpers:BooleanToVisibilityConverter x:Key="FalseToVisibleConverter" IsReversed="True" />
     </Page.Resources>
 
     <Page.DataContext>
