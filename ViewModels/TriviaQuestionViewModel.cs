@@ -18,6 +18,7 @@ namespace QuizApp.ViewModels
         private string question;
         private int questionIndex = 1;
         private double takeCount;
+        private bool stopped;
 
         public event EventHandler QuestionFinished;
 
@@ -58,13 +59,23 @@ namespace QuizApp.ViewModels
 
         public void Stop()
         {
-            gameTimer.Stop();
-            Blocks.Clear();
+            stopped = true;
+        }
+
+        public void Start()
+        {
+            stopped = false;
+            gameTimer.Start();
         }
 
         private async void GameTimerOnTick()
         {
             gameTimer.Stop();
+            if (stopped)
+            {
+                return;
+            }
+
             if (answer == null)
             {
                 await ShowQuestion();
@@ -108,7 +119,7 @@ namespace QuizApp.ViewModels
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
 #if DEBUG
-            takeCount = 1;
+            takeCount = 50;
 #else
             takeCount = 1;
 #endif

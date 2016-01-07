@@ -7,5 +7,7 @@ namespace QuizApp.ViewModels
         event EventHandler QuestionFinished;
 
         void Stop();
+
+        void Start();
     }
 }

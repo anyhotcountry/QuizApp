@@ -20,6 +20,7 @@ namespace QuizApp.ViewModels
         private bool isCollapsed = true;
         private int questionIndex = 1;
         private double takeCount;
+        private bool stopped;
 
         public event EventHandler QuestionFinished;
 
@@ -32,6 +33,7 @@ namespace QuizApp.ViewModels
             this.questionsService = questionsService;
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
             gameTimer.Tick += (s, e) => GameTimerOnTick();
+            ShowQuestion();
             gameTimer.Start();
         }
 
@@ -67,16 +69,21 @@ namespace QuizApp.ViewModels
 
         public void Stop()
         {
-            gameTimer.Stop();
-            Blocks.Clear();
+            stopped = true;
+        }
+
+        public void Start()
+        {
+            stopped = false;
+            gameTimer.Start();
         }
 
         private async Task GameTimerOnTick()
         {
             gameTimer.Stop();
-            if (answer == null)
+            if (stopped)
             {
-                await ShowQuestion();
+                return;
             }
 
             for (int i = 0; i < (int)takeCount; i++)

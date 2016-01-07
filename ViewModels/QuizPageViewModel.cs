@@ -16,7 +16,7 @@ namespace QuizApp.ViewModels
         private readonly IPresentationService presentationService;
         private int questionIndex;
         private IQuestionViewModel currentViewModel;
-        private DelegateCommand launchCommand;
+        private bool stopped = true;
 
         public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IPresentationService presentationService)
         {
@@ -24,6 +24,9 @@ namespace QuizApp.ViewModels
             questions = new List<string>();
             this.mediaService = mediaService;
             this.presentationService = presentationService;
+            LaunchCommand = new DelegateCommand(LaunchExecute, LaunchCanExecute);
+            PauseCommand = new DelegateCommand(PauseExecute, PauseCanExecute);
+            ResumeCommand = new DelegateCommand(ResumeExecute, ResumeCanExecute);
         }
 
         public object SoundPlayer
@@ -38,11 +41,15 @@ namespace QuizApp.ViewModels
             private set { Set(ref currentViewModel, value); }
         }
 
-        public DelegateCommand LaunchCommand => launchCommand ?? (launchCommand = new DelegateCommand(LaunchExecute, LaunchCanExecute));
+        public DelegateCommand LaunchCommand { get; }
+
+        public DelegateCommand PauseCommand { get; }
+
+        public DelegateCommand ResumeCommand { get; }
 
         private bool LaunchCanExecute()
         {
-            return true;
+            return stopped;
         }
 
         private async void LaunchExecute()
@@ -50,13 +57,35 @@ namespace QuizApp.ViewModels
             await presentationService.ProjectAsync().ConfigureAwait(false);
         }
 
-        public void OnUnLoaded()
+        private bool PauseCanExecute()
+        {
+            return true;
+        }
+
+        private async void PauseExecute()
         {
             CurrentViewModel?.Stop();
         }
 
+        private bool ResumeCanExecute()
+        {
+            return true;
+        }
+
+        private async void ResumeExecute()
+        {
+            CurrentViewModel?.Start();
+        }
+
+        public void OnUnLoaded()
+        {
+            CurrentViewModel?.Stop();
+            stopped = true;
+        }
+
         public async Task OnLoaded()
         {
+            stopped = false;
             await LoadQuestions().ConfigureAwait(false);
         }
 
@@ -102,6 +131,7 @@ namespace QuizApp.ViewModels
             else
             {
                 CurrentViewModel = null;
+                stopped = true;
             }
         }
 
