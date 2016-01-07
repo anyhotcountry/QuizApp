@@ -7,11 +7,11 @@ namespace QuizApp.ViewModels
     public class AnswersPageViewModel : Mvvm.ViewModelBase
     {
         private string answers;
-        private readonly QuestionsService questionsService;
+        private readonly IQuestionsService questionsService;
 
-        public AnswersPageViewModel()
+        public AnswersPageViewModel(IQuestionsService questionsService)
         {
-            questionsService = QuestionsService.Instance;
+            this.questionsService = questionsService;
             Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 Answers = await questionsService.GetAnswersAsync();

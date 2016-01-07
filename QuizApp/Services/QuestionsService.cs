@@ -9,9 +9,10 @@ using Windows.Storage.Pickers;
 
 namespace QuizApp.Services
 {
-    public class QuestionsService
+    public class QuestionsService : IQuestionsService
     {
-        public static QuestionsService Instance { get; }
+        public static IQuestionsService Instance { get; }
+
         static QuestionsService()
         {
             Instance = Instance ?? new QuestionsService();

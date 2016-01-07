@@ -39,16 +39,5 @@ namespace QuizApp.ViewModels
         {
             await QuestionsService.Instance.PickFiles();
         }
-
-
-        public void GotoPrivacy()
-        {
-            NavigationService.Navigate(typeof(Views.SettingsPage), 1);
-        }
-
-        public void GotoAbout()
-        {
-            NavigationService.Navigate(typeof(Views.SettingsPage), 2);
-        }
     }
 }

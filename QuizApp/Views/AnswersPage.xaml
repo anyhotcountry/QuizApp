@@ -9,9 +9,8 @@
       xmlns:local="using:QuizApp.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:QuizApp.ViewModels" mc:Ignorable="d">
-
     <Page.DataContext>
-        <vm:AnswersPageViewModel />
+        <Binding Path="AnswersPageViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

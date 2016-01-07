@@ -105,10 +105,16 @@
     <Compile Include="Helpers\DynamicDataTemplateSelector.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMediaService.cs" />
+    <Compile Include="Services\IPresentationService.cs" />
+    <Compile Include="Services\IQuestionsService.cs" />
+    <Compile Include="Services\MediaService.cs" />
+    <Compile Include="Services\PresentationService.cs" />
     <Compile Include="Services\QuestionsService.cs" />
     <Compile Include="Services\SettingsServices\ISettingsService.cs" />
     <Compile Include="Services\SettingsServices\SettingsService.Apply.cs" />
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\BlockViewModel.cs" />
     <Compile Include="ViewModels\IQuestionViewModel.cs" />
     <Compile Include="ViewModels\AnswersPageViewModel.cs" />
@@ -117,7 +123,6 @@
     <Compile Include="ViewModels\QuizPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AnswersPage.xaml.cs">
       <DependentUpon>AnswersPage.xaml</DependentUpon>
     </Compile>
