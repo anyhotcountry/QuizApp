@@ -10,7 +10,7 @@
       xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:QuizApp.ViewModels"
-      mc:Ignorable="d" Loaded="{x:Bind ViewModel.OnLoaded}" Unloaded="{x:Bind ViewModel.OnUnLoaded}">
+      mc:Ignorable="d" Loaded="PageOnLoaded" Unloaded="PageOnUnloaded"  >
 
     <Page.Resources>
         <helpers:DynamicDataTemplateSelector x:Key="DynamicDataTemplateSelector" />

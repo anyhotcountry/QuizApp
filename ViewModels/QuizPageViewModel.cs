@@ -47,7 +47,7 @@ namespace QuizApp.ViewModels
 
         private async void LaunchExecute()
         {
-            await presentationService.ProjectAsync();
+            await presentationService.ProjectAsync().ConfigureAwait(false);
         }
 
         public void OnUnLoaded()
@@ -57,7 +57,7 @@ namespace QuizApp.ViewModels
 
         public async Task OnLoaded()
         {
-            await LoadQuestions();
+            await LoadQuestions().ConfigureAwait(false);
         }
 
         private async Task LoadQuestions()

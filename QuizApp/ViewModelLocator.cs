@@ -11,7 +11,7 @@ namespace QuizApp
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 return null;
 
-            return new QuizPageViewModel(QuestionsService.Instance, new MediaService(), new PresentationService(typeof(object)));
+            return new QuizPageViewModel(QuestionsService.Instance, new MediaService(), new PresentationService(typeof(Views.QuizPage)));
         });
 
         public QuizPageViewModel QuizPageViewModel

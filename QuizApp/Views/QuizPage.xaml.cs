@@ -12,5 +12,15 @@ namespace QuizApp.Views
         }
 
         public QuizPageViewModel ViewModel => (DataContext as QuizPageViewModel);
+
+        private async void PageOnLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await ViewModel.OnLoaded();
+        }
+
+        private void PageOnUnloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ViewModel.OnUnLoaded();
+        }
     }
 }
