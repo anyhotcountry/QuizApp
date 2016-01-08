@@ -99,7 +99,6 @@ namespace QuizApp.ViewModels
             {
                 IsCollapsed = false;
                 await mediaService.SpeakAsync(answer);
-
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 QuestionFinished?.Invoke(this, EventArgs.Empty);
             }

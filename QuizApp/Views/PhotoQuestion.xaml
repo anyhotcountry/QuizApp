@@ -22,7 +22,8 @@
                Source="{Binding Path=ImageSource}"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch"
-               Stretch="Uniform" />
+               Stretch="Uniform">
+        </Image>
         <Border Background="Yellow"
                 BorderBrush="DarkBlue"
                 BorderThickness="5"
@@ -30,13 +31,17 @@
                 VerticalAlignment="Center"
                 CornerRadius="25"
                 Visibility="{Binding IsCollapsed, Converter={StaticResource FalseToVisibleConverter}}">
+            <Border.RenderTransform>
+                <RotateTransform x:Name="rotateTransform" />
+            </Border.RenderTransform>
             <TextBlock Margin="30,0,30,0"
                    Name="AnswerTextBlock"
                    Visibility="Visible"
                    Foreground="DarkBlue"
                    TextLineBounds="Full"
                    Text="{Binding Path=Answer}"
-                   FontSize="100" />
+                   FontSize="100">
+            </TextBlock>
         </Border>
         <Viewbox HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch"
@@ -73,13 +78,13 @@
                 BorderThickness="5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                CornerRadius="25" >
+                CornerRadius="25">
             <TextBlock Margin="20"
                    TextLineBounds="Tight"
                    Name="NumberTextBlock"
                    Visibility="Visible"
                    Foreground="Yellow"
-                   Text="{Binding Path=QuestionIndex}"                  
+                   Text="{Binding Path=QuestionIndex}"
                    FontSize="100" />
         </Border>
     </Grid>
