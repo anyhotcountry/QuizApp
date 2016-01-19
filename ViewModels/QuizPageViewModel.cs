@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Template10.Mvvm;
 using Windows.Storage;
+using Windows.UI.Core;
 
 namespace QuizApp.ViewModels
 {
@@ -13,20 +13,33 @@ namespace QuizApp.ViewModels
         private readonly IQuestionsService questionsService;
         private readonly List<string> questions;
         private readonly IMediaService mediaService;
-        private readonly IPresentationService presentationService;
+        private readonly IQuizController quizController;
+        private readonly CoreDispatcher dispatcher;
         private int questionIndex;
         private IQuestionViewModel currentViewModel;
         private bool stopped = true;
 
-        public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IPresentationService presentationService)
+        public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IQuizController quizController)
         {
             this.questionsService = questionsService;
             questions = new List<string>();
             this.mediaService = mediaService;
-            this.presentationService = presentationService;
-            LaunchCommand = new DelegateCommand(LaunchExecute, LaunchCanExecute);
-            PauseCommand = new DelegateCommand(PauseExecute, PauseCanExecute);
-            ResumeCommand = new DelegateCommand(ResumeExecute, ResumeCanExecute);
+            this.quizController = quizController;
+            quizController.Stop += QuizControllerOnStop;
+            quizController.Resume += QuizControllerOnResume;
+            dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+        }
+
+        private async void QuizControllerOnResume(object sender, EventArgs e)
+        {
+            stopped = false;
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CurrentViewModel?.Start());
+        }
+
+        private async void QuizControllerOnStop(object sender, EventArgs e)
+        {
+            stopped = true;
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CurrentViewModel?.Stop());
         }
 
         public object SoundPlayer
@@ -39,42 +52,6 @@ namespace QuizApp.ViewModels
             get { return currentViewModel; }
 
             private set { Set(ref currentViewModel, value); }
-        }
-
-        public DelegateCommand LaunchCommand { get; }
-
-        public DelegateCommand PauseCommand { get; }
-
-        public DelegateCommand ResumeCommand { get; }
-
-        private bool LaunchCanExecute()
-        {
-            return stopped;
-        }
-
-        private async void LaunchExecute()
-        {
-            await presentationService.ProjectAsync().ConfigureAwait(false);
-        }
-
-        private bool PauseCanExecute()
-        {
-            return true;
-        }
-
-        private async void PauseExecute()
-        {
-            CurrentViewModel?.Stop();
-        }
-
-        private bool ResumeCanExecute()
-        {
-            return true;
-        }
-
-        private async void ResumeExecute()
-        {
-            CurrentViewModel?.Start();
         }
 
         public void OnUnLoaded()

@@ -43,8 +43,8 @@
                    FontSize="100">
             </TextBlock>
         </Border>
-        <Viewbox HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"
+        <Viewbox HorizontalAlignment="Center"
+               VerticalAlignment="Center"
                Stretch="UniformToFill">
             <ItemsControl ItemsSource="{Binding Path=Blocks}"
                           x:Name="ItemsControl">

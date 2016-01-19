@@ -12,7 +12,7 @@ namespace QuizApp.Views
             NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
-        public QuizPageViewModel ViewModel => (DataContext as QuizPageViewModel);
+        public QuizLauncherPageViewModel ViewModel => (DataContext as QuizLauncherPageViewModel);
     }
 }
 

@@ -1,26 +1,33 @@
 ﻿using QuizApp.Services;
 using QuizApp.ViewModels;
+using QuizApp.Views;
 using System;
 
 namespace QuizApp
 {
     public class ViewModelLocator
     {
-        private readonly Lazy<QuizPageViewModel> quizPageViewModel = new Lazy<QuizPageViewModel>(() =>
+        private static readonly Lazy<IQuizController> quizController = new Lazy<IQuizController>(() =>
         {
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                return null;
-
-            return new QuizPageViewModel(QuestionsService.Instance, new MediaService(), new PresentationService(typeof(Views.QuizPage)));
+            return new QuizController();
         });
 
         public QuizPageViewModel QuizPageViewModel
         {
             get
             {
-                return quizPageViewModel.Value;
+                return new QuizPageViewModel(QuestionsService.Instance, new MediaService(), quizController.Value);
             }
         }
+
+        public QuizLauncherPageViewModel QuizLauncherPageViewModel
+        {
+            get
+            {
+                return new QuizLauncherPageViewModel(quizController.Value, new PresentationService(typeof(QuizPage)));
+            }
+        }
+
 
         public AnswersPageViewModel AnswersPageViewModel
         {

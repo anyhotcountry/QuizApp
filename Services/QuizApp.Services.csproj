@@ -110,10 +110,12 @@
     <Compile Include="IMediaService.cs" />
     <Compile Include="IPresentationService.cs" />
     <Compile Include="IQuestionsService.cs" />
+    <Compile Include="IQuizController.cs" />
     <Compile Include="MediaService.cs" />
     <Compile Include="PresentationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionsService.cs" />
+    <Compile Include="QuizController.cs" />
     <Compile Include="SettingsServices\ISettingsService.cs" />
     <Compile Include="SettingsServices\SettingsService.Apply.cs" />
     <Compile Include="SettingsServices\SettingsService.cs" />
