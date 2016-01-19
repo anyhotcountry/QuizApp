@@ -1,3 +1,4 @@
+using QuizApp.ViewModels;
 using Windows.UI.Xaml.Controls;
 
 namespace QuizApp.Views
@@ -8,5 +9,8 @@ namespace QuizApp.Views
         {
             InitializeComponent();
         }
+
+        public PhotoQuestionViewModel ViewModel => (DataContext as PhotoQuestionViewModel);
+
     }
 }

@@ -17,12 +17,10 @@
         <helpers:BooleanToVisibilityConverter x:Key="FalseToVisibleConverter" IsReversed="True" />
     </UserControl.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Pink" >
         <Image Name="QuizImage"
-               Source="{Binding Path=ImageSource}"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"
-               Stretch="Uniform">
+                Source="{Binding Path=ImageSource}"
+                Stretch="Uniform">
         </Image>
         <Border Background="Yellow"
                 BorderBrush="DarkBlue"
@@ -43,14 +41,12 @@
                    FontSize="100">
             </TextBlock>
         </Border>
-        <Viewbox HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Stretch="UniformToFill">
-            <ItemsControl ItemsSource="{Binding Path=Blocks}"
+        <Viewbox Width="{Binding ActualWidth, ElementName=QuizImage}" Height="{Binding ActualHeight, ElementName=QuizImage}">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Blocks}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Width="100" Height="100" />
+                        <Canvas Width="240" Height="240" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -58,8 +54,8 @@
                         <Rectangle Height="{Binding Path=Height}"
                                    Width="{Binding Path=Width}"
                                    Stroke="DarkBlue"
-                                   StrokeThickness="0.1"
-                                   Fill="Blue" />
+                                   StrokeThickness="0.5"
+                                   Fill="Blue" Margin="0" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>

@@ -15,6 +15,7 @@ namespace QuizApp.ViewModels
         private readonly IMediaService mediaService;
         private readonly IQuizController quizController;
         private readonly CoreDispatcher dispatcher;
+        private readonly object lockObject;
         private int questionIndex;
         private IQuestionViewModel currentViewModel;
         private bool stopped = true;
@@ -28,6 +29,7 @@ namespace QuizApp.ViewModels
             quizController.Stop += QuizControllerOnStop;
             quizController.Resume += QuizControllerOnResume;
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+            lockObject = new Object();
         }
 
         private async void QuizControllerOnResume(object sender, EventArgs e)
@@ -51,19 +53,29 @@ namespace QuizApp.ViewModels
         {
             get { return currentViewModel; }
 
-            private set { Set(ref currentViewModel, value); }
+            private set
+            {
+                lock (lockObject)
+                {
+                    Set(ref currentViewModel, value);
+                }
+            }
         }
 
         public void OnUnLoaded()
         {
-            CurrentViewModel?.Stop();
+            lock (lockObject)
+            {
+                CurrentViewModel?.Stop();
+            }
+
             stopped = true;
         }
 
         public async Task OnLoaded()
         {
             stopped = false;
-            await LoadQuestions().ConfigureAwait(false);
+            await LoadQuestions();
         }
 
         private async Task LoadQuestions()

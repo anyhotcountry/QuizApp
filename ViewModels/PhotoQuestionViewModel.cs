@@ -21,6 +21,7 @@ namespace QuizApp.ViewModels
         private int questionIndex = 1;
         private double takeCount;
         private bool stopped;
+        private ObservableCollection<BlockViewModel> blocks;
 
         public event EventHandler QuestionFinished;
 
@@ -44,7 +45,12 @@ namespace QuizApp.ViewModels
             set { Set(ref answer, value); }
         }
 
-        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
+        public ObservableCollection<BlockViewModel> Blocks
+        {
+            get { return blocks; }
+
+            set { Set(ref blocks, value); }
+        }
 
         public BitmapImage ImageSource
         {
@@ -90,8 +96,7 @@ namespace QuizApp.ViewModels
             {
                 if (Blocks.Count != 0)
                 {
-                    var index = random.Next(Blocks.Count);
-                    Blocks.RemoveAt(index);
+                    Blocks.RemoveAt(Blocks.Count - 1);
                 }
             }
 
@@ -104,22 +109,28 @@ namespace QuizApp.ViewModels
             }
             else
             {
-                takeCount += 0.02;
+                takeCount += 0.015;
                 gameTimer.Start();
             }
         }
 
         private async Task ShowQuestion()
         {
-            var width = 4;
-            for (int i = 0; i < 25; i++)
+            var width = 10;
+            var blockCount = 12;
+            var questionBlocks = new ObservableCollection<BlockViewModel>();
+            for (int i = 0; i < blockCount; i++)
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = -i - 1; j <= i; j++)
                 {
-                    Blocks.Add(new BlockViewModel(width * j, width * i, width, width));
+                    questionBlocks.Add(new BlockViewModel((blockCount + i) * width, (blockCount + j) * width, width, width));
+                    questionBlocks.Add(new BlockViewModel((blockCount - i - 1) * width, (blockCount + j) * width, width, width));
+                    questionBlocks.Add(new BlockViewModel((blockCount + j) * width, (blockCount + i) * width, width, width));
+                    questionBlocks.Add(new BlockViewModel((blockCount + j) * width, (blockCount - i - 1) * width, width, width));
                 }
             }
 
+            Blocks = questionBlocks;
             Answer = questionsService.GetAnswer(filename);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             var fileStream = await file.OpenAsync(FileAccessMode.Read);
@@ -128,9 +139,9 @@ namespace QuizApp.ViewModels
 
             ImageSource = img;
 #if DEBUG
-            takeCount = 50;
+            takeCount = 20;
 #else
-            takeCount = 1;
+            takeCount = 2;
 #endif
         }
     }

@@ -20,10 +20,8 @@
         <Binding Path="QuizPageViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl Content="{Binding CurrentViewModel}" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch" 
+    <Grid>
+        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  Content="{Binding CurrentViewModel}" 
                         ContentTemplateSelector="{StaticResource DynamicDataTemplateSelector}" />
         <ContentControl Content="{Binding SoundPlayer}" />
     </Grid>
