@@ -10,10 +10,14 @@ namespace QuizApp.Services
 
         event EventHandler SpeedUp;
 
+        event EventHandler NextQuestion;
+
         void StopQuiz();
 
         void ResumeQuiz();
 
         void SpeedUpQuiz();
+
+        void EndQuestion();
     }
 }

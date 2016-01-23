@@ -22,6 +22,7 @@ namespace QuizApp.ViewModels
             LaunchCommand = new DelegateCommand(LaunchExecute, LaunchCanExecute);
             PauseCommand = new DelegateCommand(PauseExecute, PauseCanExecute);
             ResumeCommand = new DelegateCommand(ResumeExecute, ResumeCanExecute);
+            NextCommand = new DelegateCommand(NextExecute, NextCanExecute);
         }
 
         public DelegateCommand LaunchCommand { get; }
@@ -29,6 +30,8 @@ namespace QuizApp.ViewModels
         public DelegateCommand PauseCommand { get; }
 
         public DelegateCommand ResumeCommand { get; }
+
+        public DelegateCommand NextCommand { get; }
 
         private bool LaunchCanExecute()
         {
@@ -58,6 +61,16 @@ namespace QuizApp.ViewModels
         private async void ResumeExecute()
         {
             quizController.ResumeQuiz();
+        }
+
+        private bool NextCanExecute()
+        {
+            return true;
+        }
+
+        private async void NextExecute()
+        {
+            quizController.EndQuestion();
         }
     }
 }

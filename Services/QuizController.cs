@@ -10,6 +10,8 @@ namespace QuizApp.Services
 
         public event EventHandler SpeedUp;
 
+        public event EventHandler NextQuestion;
+
         public void StopQuiz()
         {
             Stop?.Invoke(this, EventArgs.Empty);
@@ -23,6 +25,11 @@ namespace QuizApp.Services
         public void SpeedUpQuiz()
         {
             SpeedUp?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void EndQuestion()
+        {
+            NextQuestion?.Invoke(this, EventArgs.Empty);
         }
     }
 }

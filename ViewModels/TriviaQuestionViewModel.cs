@@ -68,6 +68,11 @@ namespace QuizApp.ViewModels
             gameTimer.Start();
         }
 
+        public void End()
+        {
+            Blocks.Clear();
+        }
+
         private async void GameTimerOnTick()
         {
             gameTimer.Stop();

@@ -9,5 +9,7 @@ namespace QuizApp.ViewModels
         void Stop();
 
         void Start();
+
+        void End();
     }
 }

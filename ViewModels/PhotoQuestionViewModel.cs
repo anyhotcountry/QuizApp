@@ -78,6 +78,11 @@ namespace QuizApp.ViewModels
             gameTimer.Start();
         }
 
+        public void End()
+        {
+            Blocks.Clear();
+        }
+
         private async Task GameTimerOnTick()
         {
             gameTimer.Stop();
@@ -132,7 +137,7 @@ namespace QuizApp.ViewModels
 
             ImageSource = img;
 #if DEBUG
-            takeCount = 20;
+            takeCount = 2;
 #else
             takeCount = 1;
 #endif

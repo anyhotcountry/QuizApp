@@ -26,8 +26,13 @@ namespace QuizApp.ViewModels
             this.mediaService = mediaService;
             this.quizController = quizController;
             quizController.Stop += QuizControllerOnStop;
-            quizController.Resume += QuizControllerOnResume;
+            quizController.NextQuestion += QuizControllerOnNextQuestion;
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+        }
+
+        private async void QuizControllerOnNextQuestion(object sender, EventArgs e)
+        {
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CurrentViewModel?.End());
         }
 
         private async void QuizControllerOnResume(object sender, EventArgs e)

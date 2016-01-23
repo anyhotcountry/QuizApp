@@ -34,7 +34,8 @@
                     Command="{x:Bind ViewModel.PauseCommand}" Content="Pause Quiz" />
             <Button Margin="12,0" VerticalAlignment="Bottom"
                     Command="{x:Bind ViewModel.ResumeCommand}" Content="Resume Quiz" />
-
+            <Button Margin="12,0" VerticalAlignment="Bottom"
+                    Command="{x:Bind ViewModel.NextCommand}" Content="Next Question" />
         </StackPanel>
     </Grid>
 </Page>
