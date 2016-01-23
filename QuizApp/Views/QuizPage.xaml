@@ -21,11 +21,9 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl Content="{Binding CurrentViewModel}" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch" 
+        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding Path=CurrentViewModel}" 
                         ContentTemplateSelector="{StaticResource DynamicDataTemplateSelector}" />
-        <ContentControl Content="{Binding SoundPlayer}" />
+        <ContentControl Content="{Binding Path=SoundPlayer}" />
     </Grid>
 </Page>
     

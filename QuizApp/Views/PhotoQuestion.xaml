@@ -43,14 +43,12 @@
                    FontSize="100">
             </TextBlock>
         </Border>
-        <Viewbox HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Stretch="UniformToFill">
+        <Viewbox x:Name="BlocksViewBox" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ItemsControl ItemsSource="{Binding Path=Blocks}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Width="100" Height="100" />
+                        <Canvas Width="240" Height="240" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

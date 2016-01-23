@@ -7,6 +7,11 @@ namespace QuizApp.Views
         public PhotoQuestion()
         {
             InitializeComponent();
+            QuizImage.SizeChanged += (o, e) =>
+            {
+                BlocksViewBox.Width = QuizImage.ActualWidth;
+                BlocksViewBox.Height = QuizImage.ActualHeight;
+            };
         }
     }
 }

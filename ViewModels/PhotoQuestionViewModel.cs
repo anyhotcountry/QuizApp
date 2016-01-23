@@ -91,7 +91,7 @@ namespace QuizApp.ViewModels
                 if (Blocks.Count != 0)
                 {
                     var index = random.Next(Blocks.Count);
-                    Blocks.RemoveAt(index);
+                    Blocks.RemoveAt(Blocks.Count - 1);
                 }
             }
 
@@ -111,12 +111,16 @@ namespace QuizApp.ViewModels
 
         private async Task ShowQuestion()
         {
-            var width = 4;
-            for (int i = 0; i < 25; i++)
+            var blockCount = 12;
+            var width = 10;
+            for (int i = 0; i < blockCount; i++)
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = -i - 1; j <= i; j++)
                 {
-                    Blocks.Add(new BlockViewModel(width * j, width * i, width, width));
+                    Blocks.Add(new BlockViewModel((blockCount + i) * width, (blockCount + j) * width, width, width));
+                    Blocks.Add(new BlockViewModel((blockCount - i - 1) * width, (blockCount + j) * width, width, width));
+                    Blocks.Add(new BlockViewModel((blockCount + j) * width, (blockCount + i) * width, width, width));
+                    Blocks.Add(new BlockViewModel((blockCount + j) * width, (blockCount - i - 1) * width, width, width));
                 }
             }
 
@@ -128,7 +132,7 @@ namespace QuizApp.ViewModels
 
             ImageSource = img;
 #if DEBUG
-            takeCount = 50;
+            takeCount = 1;
 #else
             takeCount = 1;
 #endif
