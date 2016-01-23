@@ -132,7 +132,7 @@ namespace QuizApp.ViewModels
 
             ImageSource = img;
 #if DEBUG
-            takeCount = 1;
+            takeCount = 20;
 #else
             takeCount = 1;
 #endif
