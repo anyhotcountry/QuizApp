@@ -27,21 +27,13 @@
 
         <StackPanel Grid.Row="1" VerticalAlignment="Top"
                     Orientation="Horizontal" Padding="12,8,0,0" >
-            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.LaunchCommand}" Margin="15,0,0,0" Padding="15">
+            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.ControlCommand}" Margin="15,0,0,0" Padding="15">
                 <StackPanel Orientation="Vertical">
-                    <SymbolIcon Symbol="Play" />
-                    <TextBlock Text="Start Quiz" />
+                    <SymbolIcon Symbol="{Binding Path=ControlSymbol}" />
+                    <TextBlock Text="{Binding Path=ControlText}" />
                 </StackPanel>
             </Button>
-            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.PauseCommand}" Margin="15,0,0,0" Padding="15">
-                <StackPanel Orientation="Vertical">
-                    <SymbolIcon Symbol="Pause" />
-                    <TextBlock Text="Pause Quiz" />
-                </StackPanel>
-            </Button>
-            <Button Margin="12,0" VerticalAlignment="Bottom" Visibility="Collapsed"
-                    Command="{x:Bind ViewModel.ResumeCommand}" Content="Resume Quiz" />
-            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.LaunchCommand}" Margin="15,0,0,0" Padding="15">
+            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.NextCommand}" Margin="15,0,0,0" Padding="15">
                 <StackPanel Orientation="Vertical">
                     <SymbolIcon Symbol="Next" />
                     <TextBlock Text="Next Question" />

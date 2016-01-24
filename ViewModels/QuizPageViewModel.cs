@@ -26,6 +26,7 @@ namespace QuizApp.ViewModels
             this.mediaService = mediaService;
             this.quizController = quizController;
             quizController.Stop += QuizControllerOnStop;
+            quizController.Resume += QuizControllerOnResume;
             quizController.NextQuestion += QuizControllerOnNextQuestion;
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
         }
