@@ -19,6 +19,7 @@ namespace QuizApp.ViewModels
         private int questionIndex = 1;
         private double takeCount;
         private bool stopped;
+        private double questionWidth;
 
         public event EventHandler QuestionFinished;
 
@@ -55,6 +56,13 @@ namespace QuizApp.ViewModels
             get { return questionIndex; }
 
             set { Set(ref questionIndex, value); }
+        }
+
+        public double QuestionWidth
+        {
+            get { return questionWidth; }
+
+            set { Set(ref questionWidth, value); }
         }
 
         public void Stop()
@@ -123,8 +131,9 @@ namespace QuizApp.ViewModels
             Answer = questionsService.GetAnswer(filename);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
+            QuestionWidth = 2.5 * Question.Length;
 #if DEBUG
-            takeCount = 50;
+            takeCount = 20;
 #else
             takeCount = 1;
 #endif

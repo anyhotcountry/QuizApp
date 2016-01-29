@@ -17,7 +17,11 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1" Margin="20,0,20,0" >
             <TextBlock Margin="0"
                    Name="QuestionTextBlock"
                    Visibility="Visible"
@@ -25,10 +29,10 @@
                    TextLineBounds="Full"
                    Text="{Binding Path=Question}"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                   MaxWidth="1000" TextWrapping="Wrap"
-                   FontSize="100" />
+                   MaxWidth="{Binding Path=QuestionWidth}" TextWrapping="Wrap"
+                   FontSize="10" />
         </Viewbox>
-        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" >
+        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
             <TextBlock Margin="0"
                    Name="AnswerTextBlock"
                    Visibility="Visible"
@@ -39,7 +43,7 @@
                    MaxWidth="1000" TextWrapping="Wrap"
                    FontSize="100" />
         </Viewbox>
-        <Viewbox Grid.Row="1" HorizontalAlignment="Stretch"
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch"
                Stretch="UniformToFill">
             <ItemsControl ItemsSource="{Binding Path=Blocks}"
@@ -68,7 +72,7 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Viewbox>
-        <Border Grid.Row="0" Margin="10"
+        <Border Grid.Row="0" Grid.Column="0" Margin="10"
                 Background="Blue"
                 BorderBrush="DarkBlue"
                 BorderThickness="5"
