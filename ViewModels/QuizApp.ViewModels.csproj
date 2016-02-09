@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrintAnswersPageViewModel.cs" />
     <Compile Include="AnswersPageViewModel.cs" />
     <Compile Include="BlockViewModel.cs" />
     <Compile Include="IQuestionViewModel.cs" />

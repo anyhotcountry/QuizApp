@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,19 +22,26 @@ namespace QuizApp.Services
         public async Task<string> GetAnswersAsync()
         {
             var sb = new StringBuilder();
-            var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Quiz");
-            if (folder == null)
+            var answers = await GetAnswersListAsync();
+            foreach (var answer in answers)
             {
-                return string.Empty;
-            }
-
-            var files = await folder.GetFilesAsync();
-            foreach (var item in files)
-            {
-                sb.AppendLine(GetAnswer(item.Name));
+                sb.AppendLine(answer);
             }
 
             return sb.ToString();
+        }
+
+        public async Task<IList<string>> GetAnswersListAsync()
+        {
+            var sb = new StringBuilder();
+            var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Quiz");
+            if (folder == null)
+            {
+                return new List<string>();
+            }
+
+            var files = await folder.GetFilesAsync();
+            return files.Select(f => GetAnswer(f.Name)).ToList();
         }
 
         private QuestionsService()

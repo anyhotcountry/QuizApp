@@ -31,7 +31,12 @@ namespace QuizApp
 
         public AnswersPageViewModel AnswersPageViewModel
         {
-            get { return new AnswersPageViewModel(QuestionsService.Instance); }
+            get { return new AnswersPageViewModel(QuestionsService.Instance, new PrintService(new PrintAnswersPage())); }
+        }
+
+        public PrintAnswersPageViewModel PrintAnswersPageViewModel
+        {
+            get { return new PrintAnswersPageViewModel(QuestionsService.Instance); }
         }
     }
 }

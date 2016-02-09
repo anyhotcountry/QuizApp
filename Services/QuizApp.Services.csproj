@@ -109,10 +109,12 @@
   <ItemGroup>
     <Compile Include="IMediaService.cs" />
     <Compile Include="IPresentationService.cs" />
+    <Compile Include="IPrintService.cs" />
     <Compile Include="IQuestionsService.cs" />
     <Compile Include="IQuizController.cs" />
     <Compile Include="MediaService.cs" />
     <Compile Include="PresentationService.cs" />
+    <Compile Include="PrintService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionsService.cs" />
     <Compile Include="QuizController.cs" />

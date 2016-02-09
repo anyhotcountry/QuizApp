@@ -105,6 +105,9 @@
     <Compile Include="Helpers\DynamicDataTemplateSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="Views\PrintAnswersPage.xaml.cs">
+      <DependentUpon>PrintAnswersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AnswersPage.xaml.cs">
       <DependentUpon>AnswersPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\PrintAnswersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AnswersPage.xaml">
       <SubType>Designer</SubType>

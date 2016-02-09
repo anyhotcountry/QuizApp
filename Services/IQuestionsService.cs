@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QuizApp.Services
 {
@@ -9,5 +10,8 @@ namespace QuizApp.Services
         string GetAnswer(string filename);
 
         Task<string> GetAnswersAsync();
+
+        Task<IList<string>> GetAnswersListAsync();
+
     }
 }
