@@ -44,13 +44,12 @@
                    FontSize="100" />
         </Viewbox>
         <Viewbox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"
-               Stretch="UniformToFill">
+               VerticalAlignment="Stretch" Stretch="Fill">
             <ItemsControl ItemsSource="{Binding Path=Blocks}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Width="100" Height="100" />
+                        <Canvas Width="150" Height="10" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

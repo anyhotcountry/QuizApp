@@ -30,8 +30,13 @@ namespace QuizApp.ViewModels
             random = new Random();
             this.mediaService = mediaService;
             this.questionsService = questionsService;
-            gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
+#if DEBUG
+            gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+#else
+            gameTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+#endif
             gameTimer.Tick += (s, e) => GameTimerOnTick();
+            ShowQuestion();
             gameTimer.Start();
         }
 
@@ -89,19 +94,10 @@ namespace QuizApp.ViewModels
                 return;
             }
 
-            if (answer == null)
+            if (Blocks.Count != 0)
             {
-                await ShowQuestion();
-                await mediaService.SpeakAsync(question);
-            }
-
-            for (int i = 0; i < (int)takeCount; i++)
-            {
-                if (Blocks.Count != 0)
-                {
-                    var index = random.Next(Blocks.Count);
-                    Blocks.RemoveAt(index);
-                }
+                var index = random.Next(Blocks.Count);
+                Blocks.RemoveAt(index);
             }
 
             if (Blocks.Count == 0)
@@ -112,31 +108,23 @@ namespace QuizApp.ViewModels
             }
             else
             {
-                takeCount += 0.02;
                 gameTimer.Start();
             }
         }
 
         private async Task ShowQuestion()
         {
-            var width = 4;
-            for (int i = 0; i < 25; i++)
+            var width = 10;
+            for (int i = 0; i < 15; i++)
             {
-                for (int j = 0; j < 25; j++)
-                {
-                    Blocks.Add(new BlockViewModel(width * j, width * i, width, width));
-                }
+                Blocks.Add(new BlockViewModel(width * i, 0, width, width));
             }
 
             Answer = questionsService.GetAnswer(filename);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
+            await mediaService.SpeakAsync(Question);
             QuestionWidth = 2.5 * Question.Length;
-#if DEBUG
-            takeCount = 20;
-#else
-            takeCount = 1;
-#endif
         }
     }
 }
