@@ -80,10 +80,8 @@ namespace QuizApp.ViewModels
                 letter.Visible = true;
                 var curIndex = Letters.IndexOf(letter);
                 var letterToMove = Letters[letter.Position];
-                Letters.Remove(letterToMove);
-                Letters.Insert(letter.Position, letter);
-                Letters.RemoveAt(curIndex);
-                Letters.Insert(curIndex, letterToMove);
+                Letters[letter.Position] = letter;
+                Letters[curIndex] = letterToMove;
                 leftLetters.Remove(letter);
             }
 

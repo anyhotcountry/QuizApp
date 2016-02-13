@@ -30,7 +30,7 @@
                           x:Name="ItemsControl">
                 <ItemsControl.ItemContainerTransitions>
                     <TransitionCollection>
-                        <AddDeleteThemeTransition />
+                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </ItemsControl.ItemContainerTransitions>
                 <ItemsControl.ItemsPanel>
