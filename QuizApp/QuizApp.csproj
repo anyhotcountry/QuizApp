@@ -133,6 +133,9 @@
     <Compile Include="Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\JumbleQuestion.xaml.cs">
+      <DependentUpon>JumbleQuestion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TriviaQuestion.xaml.cs">
       <DependentUpon>TriviaQuestion.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,10 @@
     <Page Include="Views\Splash.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JumbleQuestion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TriviaQuestion.xaml">
       <SubType>Designer</SubType>

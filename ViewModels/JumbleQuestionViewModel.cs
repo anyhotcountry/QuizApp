@@ -2,13 +2,14 @@ using QuizApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace QuizApp.ViewModels
 {
-    public class TriviaQuestionViewModel : Mvvm.ViewModelBase, IQuestionViewModel
+    public class JumbleQuestionViewModel : Mvvm.ViewModelBase, IQuestionViewModel
     {
         private readonly DispatcherTimer gameTimer;
         private readonly IMediaService mediaService;
@@ -16,15 +17,13 @@ namespace QuizApp.ViewModels
         private readonly string filename;
         private readonly IQuestionsService questionsService;
         private string answer;
-        private string question;
         private int questionIndex = 1;
         private bool stopped;
-        private double questionWidth;
         private IList<LetterViewModel> leftLetters;
 
         public event EventHandler QuestionFinished;
 
-        public TriviaQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
+        public JumbleQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
         {
             this.filename = filename;
             QuestionIndex = index;
@@ -36,20 +35,6 @@ namespace QuizApp.ViewModels
             ShowQuestion();
         }
 
-        public string Answer
-        {
-            get { return answer; }
-
-            set { Set(ref answer, value); }
-        }
-
-        public string Question
-        {
-            get { return question; }
-
-            set { Set(ref question, value); }
-        }
-
         public ObservableCollection<LetterViewModel> Letters { get; } = new ObservableCollection<LetterViewModel>();
 
         public int QuestionIndex
@@ -57,13 +42,6 @@ namespace QuizApp.ViewModels
             get { return questionIndex; }
 
             set { Set(ref questionIndex, value); }
-        }
-
-        public double QuestionWidth
-        {
-            get { return questionWidth; }
-
-            set { Set(ref questionWidth, value); }
         }
 
         public void Stop()
@@ -100,10 +78,13 @@ namespace QuizApp.ViewModels
                 var index = random.Next(leftLetters.Count);
                 var letter = leftLetters[index];
                 letter.Visible = true;
-
-                leftLetters.Remove(letter);
-                Letters.Remove(letter);
+                var curIndex = Letters.IndexOf(letter);
+                var letterToMove = Letters[letter.Position];
+                Letters.Remove(letterToMove);
                 Letters.Insert(letter.Position, letter);
+                Letters.RemoveAt(curIndex);
+                Letters.Insert(curIndex, letterToMove);
+                leftLetters.Remove(letter);
             }
 
             if (leftLetters.Count == 0)
@@ -120,29 +101,22 @@ namespace QuizApp.ViewModels
 
         private async Task ShowQuestion()
         {
-            Answer = questionsService.GetAnswer(filename);
+            answer = questionsService.GetAnswer(filename).ToUpper();
 #if DEBUG
-            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / answer.Length);
 #else
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / Answer.Length);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / answer.Length);
 #endif
 
-            for (var i = 0; i < Answer.Length; i++)
+            foreach (var letter in answer.Select((l, i) => new { Letter = l.ToString(), Position = i }).OrderBy(x => Guid.NewGuid()))
             {
-                Letters.Add(new LetterViewModel { Letter = Answer[i].ToString(), Visible = false, Position = i });
+                Letters.Add(new LetterViewModel { Letter = letter.Letter, Visible = false, Position = letter.Position });
             }
 
             leftLetters = new List<LetterViewModel>(Letters);
             var file = await StorageFile.GetFileFromPathAsync(filename);
-            Question = await FileIO.ReadTextAsync(file);
-            QuestionWidth = 2.5 * Question.Length;
-#if DEBUG
-            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
-#else
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / Answer.Length);
-#endif
             gameTimer.Start();
-            await mediaService.SpeakAsync(Question);
+            await mediaService.SpeakAsync("Jumble word");
         }
     }
 }

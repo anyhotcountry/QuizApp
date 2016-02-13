@@ -18,5 +18,7 @@
 
             set { Set(ref visible, value); }
         }
+
+        public int Position { get; set; }
     }
 }

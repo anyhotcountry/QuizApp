@@ -9,4 +9,7 @@
     <DataTemplate x:Key="TriviaQuestionViewModelTemplate">
         <local:TriviaQuestion />
     </DataTemplate>
+    <DataTemplate x:Key="JumbleQuestionViewModelTemplate">
+        <local:JumbleQuestion />
+    </DataTemplate>
 </ResourceDictionary>
