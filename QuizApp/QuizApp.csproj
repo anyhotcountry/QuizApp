@@ -101,6 +101,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BindingHelper.cs" />
+    <Compile Include="Helpers\BooleanToColourConverter.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\DynamicDataTemplateSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -14,16 +14,16 @@
             <Controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
 
                 <Controls:HamburgerMenu.PrimaryButtons>
-                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:MainPage">
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Width="48" Height="48" Symbol="Home" />
-                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Home" />
-                        </StackPanel>
-                    </Controls:HamburgerButtonInfo>
                     <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:QuizLauncherPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Emoji" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Quiz" />
+                        </StackPanel>
+                    </Controls:HamburgerButtonInfo>
+                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:MainPage">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Width="48" Height="48" Symbol="Home" />
+                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Setup Quiz" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
                     <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:AnswersPage">
@@ -42,9 +42,7 @@
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
                 </Controls:HamburgerMenu.SecondaryButtons>
-
             </Controls:HamburgerMenu>
-
         </Controls:ModalDialog.Content>
         <Controls:ModalDialog.ModalContent>
 
@@ -56,9 +54,6 @@
                     <TextBlock VerticalAlignment="Center" Foreground="White" Text="{x:Bind BusyText, Mode=OneWay}" />
                 </StackPanel>
             </Viewbox>
-
         </Controls:ModalDialog.ModalContent>
     </Controls:ModalDialog>
-
 </Page>
-

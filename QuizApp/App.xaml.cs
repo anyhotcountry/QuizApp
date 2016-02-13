@@ -11,7 +11,7 @@ namespace QuizApp
 
     sealed partial class App : Template10.Common.BootStrapper
     {
-        readonly ISettingsService _settings;
+        private readonly ISettingsService _settings;
 
         public App()
         {
@@ -25,7 +25,7 @@ namespace QuizApp
             CacheMaxDuration = _settings.CacheMaxDuration;
             ShowShellBackButton = _settings.UseShellBackButton;
 
-            #endregion
+            #endregion App settings
         }
 
         // runs even if restored from state
@@ -44,8 +44,7 @@ namespace QuizApp
             await Task.Delay(0);
 
             // navigate to first page
-            NavigationService.Navigate(typeof(Views.MainPage));
+            NavigationService.Navigate(typeof(Views.QuizLauncherPage));
         }
     }
 }
-

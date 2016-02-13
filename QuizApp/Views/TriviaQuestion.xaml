@@ -12,6 +12,10 @@
       xmlns:vm="using:QuizApp.ViewModels"
       mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <helpers:BooleanToColourConverter x:Key="ColourConverter" FalseColour="DarkGreen" TrueColour="Transparent" />
+    </UserControl.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -21,7 +25,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1" Margin="20,0,20,0" >
+        <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1" Margin="20,0,20,0">
             <TextBlock Margin="0"
                    Name="QuestionTextBlock"
                    Visibility="Visible"
@@ -32,43 +36,28 @@
                    MaxWidth="{Binding Path=QuestionWidth}" TextWrapping="Wrap"
                    FontSize="10" />
         </Viewbox>
-        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
-            <TextBlock Margin="0"
-                   Name="AnswerTextBlock"
-                   Visibility="Visible"
-                   Foreground="DarkGreen"
-                   TextLineBounds="Full"
-                   Text="{Binding Path=Answer}"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                   MaxWidth="1000" TextWrapping="Wrap"
-                   FontSize="100" />
-        </Viewbox>
-        <Viewbox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch" Stretch="Fill">
-            <ItemsControl ItemsSource="{Binding Path=Blocks}"
+        <Viewbox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch">
+            <ItemsControl ItemsSource="{Binding Path=Letters}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Width="150" Height="10" />
+                        <StackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Height="{Binding Path=Height}"
-                                   Width="{Binding Path=Width}"
-                                   Stroke="DarkBlue"
-                                   StrokeThickness="0.1"
-                                   Fill="Blue" />
+                        <Border Background="{Binding Visible, Converter={StaticResource ColourConverter}}" BorderBrush="White" BorderThickness="0" Margin="2">
+                            <TextBlock Margin="0" Width="20"
+                               Visibility="Visible"
+                               Foreground="DarkGreen"
+                               TextLineBounds="Full"
+                               Text="{Binding Path=Letter}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               FontSize="25" />
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="helpers:BindingHelper.CanvasLeftBindingPath"
-                                Value="Left" />
-                        <Setter Property="helpers:BindingHelper.CanvasTopBindingPath"
-                                Value="Top" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Viewbox>
         <Border Grid.Row="0" Grid.Column="0" Margin="10"
@@ -77,13 +66,13 @@
                 BorderThickness="5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                CornerRadius="25" >
+                CornerRadius="25">
             <TextBlock Margin="20"
                    TextLineBounds="Tight"
                    Name="NumberTextBlock"
                    Visibility="Visible"
                    Foreground="Yellow"
-                   Text="{Binding Path=QuestionIndex}"                  
+                   Text="{Binding Path=QuestionIndex}"
                    FontSize="100" />
         </Border>
     </Grid>

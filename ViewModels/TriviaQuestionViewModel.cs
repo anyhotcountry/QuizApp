@@ -1,5 +1,6 @@
 using QuizApp.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -17,9 +18,9 @@ namespace QuizApp.ViewModels
         private string answer;
         private string question;
         private int questionIndex = 1;
-        private double takeCount;
         private bool stopped;
         private double questionWidth;
+        private IList<LetterViewModel> leftLetters;
 
         public event EventHandler QuestionFinished;
 
@@ -30,14 +31,9 @@ namespace QuizApp.ViewModels
             random = new Random();
             this.mediaService = mediaService;
             this.questionsService = questionsService;
-#if DEBUG
-            gameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
-#else
-            gameTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
-#endif
+            gameTimer = new DispatcherTimer();
             gameTimer.Tick += (s, e) => GameTimerOnTick();
             ShowQuestion();
-            gameTimer.Start();
         }
 
         public string Answer
@@ -54,7 +50,7 @@ namespace QuizApp.ViewModels
             set { Set(ref question, value); }
         }
 
-        public ObservableCollection<BlockViewModel> Blocks { get; } = new ObservableCollection<BlockViewModel>();
+        public ObservableCollection<LetterViewModel> Letters { get; } = new ObservableCollection<LetterViewModel>();
 
         public int QuestionIndex
         {
@@ -83,7 +79,12 @@ namespace QuizApp.ViewModels
 
         public void End()
         {
-            Blocks.Clear();
+            foreach (var letter in leftLetters)
+            {
+                letter.Visible = true;
+            }
+
+            leftLetters.Clear();
         }
 
         private async void GameTimerOnTick()
@@ -94,13 +95,14 @@ namespace QuizApp.ViewModels
                 return;
             }
 
-            if (Blocks.Count != 0)
+            if (leftLetters.Count != 0)
             {
-                var index = random.Next(Blocks.Count);
-                Blocks.RemoveAt(index);
+                var index = random.Next(leftLetters.Count);
+                leftLetters[index].Visible = true;
+                leftLetters.RemoveAt(index);
             }
 
-            if (Blocks.Count == 0)
+            if (leftLetters.Count == 0)
             {
                 await mediaService.SpeakAsync(answer);
                 await Task.Delay(TimeSpan.FromSeconds(3));
@@ -114,17 +116,24 @@ namespace QuizApp.ViewModels
 
         private async Task ShowQuestion()
         {
-            var width = 10;
-            for (int i = 0; i < 15; i++)
+            Answer = questionsService.GetAnswer(filename);
+#if DEBUG
+            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
+#else
+            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / Answer.Length);
+#endif
+
+            foreach (var letter in Answer)
             {
-                Blocks.Add(new BlockViewModel(width * i, 0, width, width));
+                Letters.Add(new LetterViewModel { Letter = letter.ToString(), Visible = false });
             }
 
-            Answer = questionsService.GetAnswer(filename);
+            leftLetters = new List<LetterViewModel>(Letters);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
             await mediaService.SpeakAsync(Question);
             QuestionWidth = 2.5 * Question.Length;
+            gameTimer.Start();
         }
     }
 }
