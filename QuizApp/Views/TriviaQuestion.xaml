@@ -52,13 +52,13 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Background="{Binding Visible, Converter={StaticResource ColourConverter}}" BorderBrush="White" BorderThickness="0" Margin="2">
-                            <TextBlock Margin="0" Width="20"
+                            <TextBlock Margin="0"
                                Visibility="Visible"
                                Foreground="DarkGreen"
                                TextLineBounds="Full"
                                Text="{Binding Path=Letter}"
                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                               FontSize="25" />
+                               FontSize="25" FontFamily="Lucida Console" />
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

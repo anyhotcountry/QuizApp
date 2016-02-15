@@ -40,13 +40,13 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Margin="0" Width="20"
+                        <TextBlock Margin="0"
                                Visibility="Visible"
                                Foreground="{Binding Visible, Converter={StaticResource ColourConverter}}"
                                TextLineBounds="Full"
                                Text="{Binding Path=Letter}"
                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                               FontSize="25" />
+                               FontSize="25" FontFamily="Lucida Console" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

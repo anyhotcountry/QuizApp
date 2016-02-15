@@ -120,7 +120,7 @@ namespace QuizApp.ViewModels
 
         private async Task ShowQuestion()
         {
-            Answer = questionsService.GetAnswer(filename);
+            Answer = questionsService.GetAnswer(filename).ToUpper();
 #if DEBUG
             gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
 #else
