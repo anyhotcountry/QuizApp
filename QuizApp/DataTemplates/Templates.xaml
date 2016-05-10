@@ -12,4 +12,7 @@
     <DataTemplate x:Key="JumbleQuestionViewModelTemplate">
         <local:JumbleQuestion />
     </DataTemplate>
+    <DataTemplate x:Key="ActionChallengeViewModelTemplate">
+        <local:ActionChallengePage />
+    </DataTemplate>
 </ResourceDictionary>

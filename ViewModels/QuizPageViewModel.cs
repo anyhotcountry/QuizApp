@@ -110,6 +110,11 @@ namespace QuizApp.ViewModels
                     CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
+                else if (extension == ".action")
+                {
+                    CurrentViewModel = new ActionChallengeViewModel(filename, ++questionIndex, questionsService, mediaService);
+                    CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
+                }
                 else
                 {
                     questionIndex++;

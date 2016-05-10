@@ -119,6 +119,7 @@
     <Compile Include="QuizPageViewModel.cs" />
     <Compile Include="SettingsPageViewModel.cs" />
     <Compile Include="JumbleQuestionViewModel.cs" />
+    <Compile Include="ActionChallengeViewModel.cs" />
     <Compile Include="TriviaQuestionViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Content Include="Properties\ViewModels.rd.xml" />
