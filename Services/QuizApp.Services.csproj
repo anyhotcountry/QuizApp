@@ -107,6 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKey.cs" />
+    <Compile Include="BingSearchContainer.cs" />
+    <Compile Include="IImageSearchService.cs" />
+    <Compile Include="ImageSearchService.cs" />
     <Compile Include="IMediaService.cs" />
     <Compile Include="IPresentationService.cs" />
     <Compile Include="IPrintService.cs" />
@@ -122,6 +126,11 @@
     <Compile Include="SettingsServices\SettingsService.Apply.cs" />
     <Compile Include="SettingsServices\SettingsService.cs" />
     <Content Include="Properties\Services.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Data.Services.Client">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft WCF Data Services\5.6.4\bin\.NETPortable\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

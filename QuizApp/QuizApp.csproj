@@ -246,6 +246,14 @@
       <Name>QuizApp.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Data.OData">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft WCF Data Services\5.6.4\bin\.NETPortable\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft WCF Data Services\5.6.4\bin\.NETPortable\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

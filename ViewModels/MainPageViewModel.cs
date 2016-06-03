@@ -1,43 +1,61 @@
 using QuizApp.Services;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
 {
     public class MainPageViewModel : Mvvm.ViewModelBase
     {
-        public MainPageViewModel()
+        private readonly IImageSearchService imageSearchService;
+        private string questions;
+
+        public MainPageViewModel(IImageSearchService imageSearchService)
         {
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                Value = "Designtime value";
+            this.imageSearchService = imageSearchService;
         }
 
-        private string _Value = string.Empty;
+        public ObservableCollection<ImageSource> Sources { get; } = new ObservableCollection<ImageSource>();
 
-        public string Value
+        public string Questions
         {
-            get { return _Value; }
-            set { Set(ref _Value, value); }
+            get { return questions; }
+            set { Set(ref questions, value); }
         }
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if (state.ContainsKey(nameof(Value)))
-                Value = state[nameof(Value)]?.ToString();
-            state.Clear();
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
-            if (suspending)
-                state[nameof(Value)] = Value;
             await Task.Yield();
         }
 
         public async Task SelectFiles()
         {
             await QuestionsService.Instance.PickFiles();
+        }
+
+        public async Task Search()
+        {
+            if (string.IsNullOrEmpty(questions))
+            {
+                return;
+            }
+
+            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var query in queries)
+            {
+                var sources = await imageSearchService.Search(query, 10);
+                foreach (var source in sources)
+                {
+                    Sources.Add(source);
+                }
+            }
         }
     }
 }

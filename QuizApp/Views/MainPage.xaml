@@ -11,67 +11,86 @@
       xmlns:vm="using:QuizApp.ViewModels" mc:Ignorable="d">
 
     <Page.DataContext>
-        <vm:MainPageViewModel />
+        <Binding Path="QuizSetupViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer Margin="5" HorizontalScrollBarVisibility="Disabled">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <!--  #region default visual states  -->
+            <!--  #region default visual states  -->
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-                <VisualState x:Name="VisualStateNarrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateNormal">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateWide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO  -->
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                    <VisualState x:Name="VisualStateNarrow">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <!--  TODO  -->
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateNormal">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <!--  TODO  -->
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateWide">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <!--  TODO  -->
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
 
-        <!--  #endregion  -->
+            <!--  #endregion  -->
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <!--  page header  -->
+            <!--  page header  -->
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Main Page" Frame="{x:Bind Frame}">
-            <Interactivity:Interaction.Behaviors>
-                <Behaviors:EllipsisBehavior Visibility="Auto" />
-            </Interactivity:Interaction.Behaviors>
-        </controls:PageHeader>
+            <controls:PageHeader BackButtonVisibility="Collapsed" Content="Main Page" Frame="{x:Bind Frame}" Height="48">
+                <Interactivity:Interaction.Behaviors>
+                    <Behaviors:EllipsisBehavior Visibility="Auto" />
+                </Interactivity:Interaction.Behaviors>
+            </controls:PageHeader>
 
-        <!--  page content  -->
+            <!--  page content  -->
 
-        <StackPanel Grid.Row="1" VerticalAlignment="Top"
-                    Orientation="Horizontal" Padding="12,8,0,0">
+            <StackPanel Grid.Row="1" VerticalAlignment="Top"
+                    Orientation="Horizontal" Padding="12,8,0,0" Height="40">
 
-            <Button Margin="12,0" VerticalAlignment="Bottom"
+                <Button Margin="12,0" VerticalAlignment="Bottom"
                     Click="{x:Bind ViewModel.SelectFiles}" Content="Select Files" />
-
-        </StackPanel>
-
-    </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Padding="12,8,0,0">
+                <TextBox Margin="12,0,10,0" Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="317" AcceptsReturn="True" />
+                <Button Background="Purple" Foreground="White" Click="{x:Bind ViewModel.Search}" Margin="15,0,0,0" Padding="15">
+                    <StackPanel Orientation="Vertical">
+                        <SymbolIcon Symbol="Find" />
+                        <TextBlock Text="Search" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <GridView Grid.Row="3" ItemsSource="{x:Bind ViewModel.Sources}" SelectionMode="Multiple">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="BitmapImage">
+                        <Image Width="200" Margin="20"
+                   Source="{x:Bind }"
+                   Stretch="Uniform" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+    </ScrollViewer>
 </Page>
-
