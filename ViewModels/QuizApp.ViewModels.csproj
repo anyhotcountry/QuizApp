@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageResultsViewModel.cs" />
     <Compile Include="LetterViewModel.cs" />
     <Compile Include="PrintAnswersPageViewModel.cs" />
     <Compile Include="AnswersPageViewModel.cs" />

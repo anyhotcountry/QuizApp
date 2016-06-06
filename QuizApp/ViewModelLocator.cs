@@ -28,11 +28,11 @@ namespace QuizApp
             }
         }
 
-        public MainPageViewModel QuizSetupViewModel
+        public QuizSetupPageViewModel QuizSetupViewModel
         {
             get
             {
-                return new MainPageViewModel(new ImageSearchService());
+                return new QuizSetupPageViewModel(new ImageSearchService());
             }
         }
 

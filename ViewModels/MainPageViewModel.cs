@@ -3,28 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
 {
-    public class MainPageViewModel : Mvvm.ViewModelBase
+    public class QuizSetupPageViewModel : Mvvm.ViewModelBase
     {
         private readonly IImageSearchService imageSearchService;
         private string questions;
 
-        public MainPageViewModel(IImageSearchService imageSearchService)
+        public QuizSetupPageViewModel(IImageSearchService imageSearchService)
         {
             this.imageSearchService = imageSearchService;
         }
-
-        public ObservableCollection<ImageSource> Sources { get; } = new ObservableCollection<ImageSource>();
 
         public string Questions
         {
             get { return questions; }
             set { Set(ref questions, value); }
         }
+
+        public ObservableCollection<ImageResultsViewModel> ImageResults { get; } = new ObservableCollection<ImageResultsViewModel>();
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
@@ -50,10 +49,12 @@ namespace QuizApp.ViewModels
             var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var query in queries)
             {
+                var imageResultsViewModel = new ImageResultsViewModel { Name = query };
+                ImageResults.Add(imageResultsViewModel);
                 var sources = await imageSearchService.Search(query, 10);
                 foreach (var source in sources)
                 {
-                    Sources.Add(source);
+                    imageResultsViewModel.Images.Add(source);
                 }
             }
         }

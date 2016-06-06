@@ -1,4 +1,4 @@
-<Page x:Class="QuizApp.Views.MainPage"
+<Page x:Class="QuizApp.Views.QuizSetupPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:Behaviors="using:Template10.Behaviors"
@@ -13,6 +13,9 @@
     <Page.DataContext>
         <Binding Path="QuizSetupViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
+    <Page.Resources>
+        <CollectionViewSource x:Name="groupedItemsViewSource"  IsSourceGrouped="True" Source="{Binding Path=ImageResults}" ItemsPath="Images" />
+    </Page.Resources>
 
     <ScrollViewer Margin="5" HorizontalScrollBarVisibility="Disabled">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -82,12 +85,19 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <GridView Grid.Row="3" ItemsSource="{x:Bind ViewModel.Sources}" SelectionMode="Multiple">
+            <GridView Grid.Row="3" ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}" SelectionMode="Multiple">
+                <GridView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" TextWrapping="NoWrap" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </GridView.GroupStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="BitmapImage">
-                        <Image Width="200" Margin="20"
-                   Source="{x:Bind }"
-                   Stretch="Uniform" />
+                        <Image Width="200" Margin="20" Source="{x:Bind }" Stretch="Uniform" />
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
