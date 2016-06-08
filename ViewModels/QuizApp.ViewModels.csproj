@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageResultsViewModel.cs" />
+    <Compile Include="ImageViewModel.cs" />
     <Compile Include="LetterViewModel.cs" />
     <Compile Include="PrintAnswersPageViewModel.cs" />
     <Compile Include="AnswersPageViewModel.cs" />

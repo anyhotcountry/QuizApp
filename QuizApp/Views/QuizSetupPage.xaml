@@ -91,8 +91,8 @@
                     <DataTemplate x:DataType="vm:ImageResultsViewModel">
                         <FlipView Height="200" MaxWidth="300" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding Path=Images}">
                             <FlipView.ItemTemplate>
-                                <DataTemplate x:DataType="BitmapImage">
-                                    <Image Height="200" Source="{x:Bind}" Stretch="Uniform" VerticalAlignment="Center" />
+                                <DataTemplate x:DataType="vm:ImageViewModel">
+                                    <Image Height="200" Source="{x:Bind ImageSource}" Stretch="Uniform" VerticalAlignment="Center" />
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>

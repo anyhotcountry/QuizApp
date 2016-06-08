@@ -60,7 +60,7 @@ namespace QuizApp.ViewModels
                 var sources = await imageSearchService.Search(query, 20);
                 foreach (var source in sources)
                 {
-                    imageResultsViewModel.Images.Add(source);
+                    imageResultsViewModel.Images.Add(new ImageViewModel { Uri = source });
                 }
             }
         }

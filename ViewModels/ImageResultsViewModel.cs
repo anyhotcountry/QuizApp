@@ -20,6 +20,6 @@ namespace QuizApp.ViewModels
             set { Set(ref selectedItem, value); }
         }
 
-        public ObservableCollection<ImageSource> Images { get; } = new ObservableCollection<ImageSource>();
+        public ObservableCollection<ImageViewModel> Images { get; } = new ObservableCollection<ImageViewModel>();
     }
 }
