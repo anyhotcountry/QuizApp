@@ -7,18 +7,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace QuizApp.Services
 {
     public class QuestionsService : IQuestionsService
     {
-        public static IQuestionsService Instance { get; }
-
-        static QuestionsService()
-        {
-            Instance = Instance ?? new QuestionsService();
-        }
-
         public async Task<string> GetAnswersAsync()
         {
             var sb = new StringBuilder();
@@ -44,10 +38,6 @@ namespace QuizApp.Services
             return files.Select(f => GetAnswer(f.Name)).ToList();
         }
 
-        private QuestionsService()
-        {
-        }
-
         public async Task PickFiles()
         {
             var folders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
@@ -67,6 +57,23 @@ namespace QuizApp.Services
             foreach (var file in files)
             {
                 await file.CopyAsync(quizFolder, string.Format("{0:0000}_{1}", random.Next() % 10000, file.Name));
+            }
+        }
+
+        public async Task SaveQuiz(IDictionary<string, BitmapImage> images)
+        {
+            var folders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
+            var quizFolder = folders.FirstOrDefault(f => f.Name == "Quiz");
+            if (folders.FirstOrDefault(f => f.Name == "Quiz") != null)
+            {
+                await quizFolder.DeleteAsync();
+            }
+
+            var random = new Random();
+            quizFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Quiz");
+            foreach (var image in images)
+            {
+                string location = string.Format("{0:0000}_{1}.jpg", random.Next() % 10000, image.Key);
             }
         }
 

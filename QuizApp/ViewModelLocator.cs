@@ -16,7 +16,7 @@ namespace QuizApp
         {
             get
             {
-                return new QuizPageViewModel(QuestionsService.Instance, new MediaService(), quizController.Value);
+                return new QuizPageViewModel(new QuestionsService(), new MediaService(), quizController.Value);
             }
         }
 
@@ -32,18 +32,18 @@ namespace QuizApp
         {
             get
             {
-                return new QuizSetupPageViewModel(new ImageSearchService());
+                return new QuizSetupPageViewModel(new QuestionsService(), new ImageSearchService());
             }
         }
 
         public AnswersPageViewModel AnswersPageViewModel
         {
-            get { return new AnswersPageViewModel(QuestionsService.Instance, new PrintService(new PrintAnswersPage())); }
+            get { return new AnswersPageViewModel(new QuestionsService(), new PrintService(new PrintAnswersPage())); }
         }
 
         public PrintAnswersPageViewModel PrintAnswersPageViewModel
         {
-            get { return new PrintAnswersPageViewModel(QuestionsService.Instance); }
+            get { return new PrintAnswersPageViewModel(new QuestionsService()); }
         }
     }
 }

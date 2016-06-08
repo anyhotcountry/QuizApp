@@ -58,6 +58,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!--  page header  -->
@@ -85,22 +86,25 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <GridView Grid.Row="3" ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}" SelectionMode="Multiple">
-                <GridView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" TextWrapping="NoWrap" />
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </GridView.GroupStyle>
+            <GridView Grid.Row="3" ItemsSource="{x:Bind ViewModel.ImageResults}" SelectionMode="None">
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="BitmapImage">
-                        <Image Width="200" Margin="20" Source="{x:Bind }" Stretch="Uniform" />
+                    <DataTemplate x:DataType="vm:ImageResultsViewModel">
+                        <FlipView Height="200" MaxWidth="300" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding Path=Images}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="BitmapImage">
+                                    <Image Height="200" Source="{x:Bind}" Stretch="Uniform" VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
+            <Button Grid.Row="4" Background="Purple" Foreground="White" Click="{x:Bind ViewModel.Generate}" Margin="15,0,0,0" Padding="15">
+                <StackPanel Orientation="Vertical">
+                    <SymbolIcon Symbol="Add" />
+                    <TextBlock Text="Generate Quiz" />
+                </StackPanel>
+            </Button>
         </Grid>
     </ScrollViewer>
 </Page>

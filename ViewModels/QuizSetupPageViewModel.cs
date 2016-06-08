@@ -2,7 +2,9 @@ using QuizApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
@@ -10,10 +12,12 @@ namespace QuizApp.ViewModels
     public class QuizSetupPageViewModel : Mvvm.ViewModelBase
     {
         private readonly IImageSearchService imageSearchService;
+        private readonly IQuestionsService questionsService;
         private string questions;
 
-        public QuizSetupPageViewModel(IImageSearchService imageSearchService)
+        public QuizSetupPageViewModel(IQuestionsService questionsService, IImageSearchService imageSearchService)
         {
+            this.questionsService = questionsService;
             this.imageSearchService = imageSearchService;
         }
 
@@ -36,7 +40,7 @@ namespace QuizApp.ViewModels
 
         public async Task SelectFiles()
         {
-            await QuestionsService.Instance.PickFiles();
+            await questionsService.PickFiles();
         }
 
         public async Task Search()
@@ -46,17 +50,24 @@ namespace QuizApp.ViewModels
                 return;
             }
 
-            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var previousWords = ImageResults.Select(r => r.Name).ToList();
+            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpper(w[0]) + w.Substring(1))
+                .Where(w => !previousWords.Contains(w));
             foreach (var query in queries)
             {
                 var imageResultsViewModel = new ImageResultsViewModel { Name = query };
                 ImageResults.Add(imageResultsViewModel);
-                var sources = await imageSearchService.Search(query, 10);
+                var sources = await imageSearchService.Search(query, 20);
                 foreach (var source in sources)
                 {
                     imageResultsViewModel.Images.Add(source);
                 }
             }
+        }
+
+        public async Task Generate()
+        {
+            questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem as BitmapImage));
         }
     }
 }
