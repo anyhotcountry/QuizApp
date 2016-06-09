@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuizApp.ViewModels
@@ -67,7 +66,7 @@ namespace QuizApp.ViewModels
 
         public async Task Generate()
         {
-            questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem as BitmapImage));
+            await questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem.Uri));
         }
     }
 }

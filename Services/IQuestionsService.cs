@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace QuizApp.Services
 {
@@ -14,6 +14,6 @@ namespace QuizApp.Services
 
         Task<IList<string>> GetAnswersListAsync();
 
-        Task SaveQuiz(IDictionary<string, BitmapImage> images);
+        Task SaveQuiz(IDictionary<string, Uri> images);
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Media;
 
 namespace QuizApp.ViewModels
 {
     public class ImageResultsViewModel : Mvvm.ViewModelBase
     {
         private string name;
-        private ImageSource selectedItem;
+        private ImageViewModel selectedItem;
 
         public string Name
         {
@@ -14,7 +13,7 @@ namespace QuizApp.ViewModels
             set { Set(ref name, value); }
         }
 
-        public ImageSource SelectedItem
+        public ImageViewModel SelectedItem
         {
             get { return selectedItem; }
             set { Set(ref selectedItem, value); }

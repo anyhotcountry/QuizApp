@@ -7,12 +7,15 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
+using Windows.Web.Http;
 
 namespace QuizApp.Services
 {
     public class QuestionsService : IQuestionsService
     {
+        private readonly HttpClient httpClient = new HttpClient();
+
         public async Task<string> GetAnswersAsync()
         {
             var sb = new StringBuilder();
@@ -60,7 +63,7 @@ namespace QuizApp.Services
             }
         }
 
-        public async Task SaveQuiz(IDictionary<string, BitmapImage> images)
+        public async Task SaveQuiz(IDictionary<string, Uri> images)
         {
             var folders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
             var quizFolder = folders.FirstOrDefault(f => f.Name == "Quiz");
@@ -73,7 +76,17 @@ namespace QuizApp.Services
             quizFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Quiz");
             foreach (var image in images)
             {
-                string location = string.Format("{0:0000}_{1}.jpg", random.Next() % 10000, image.Key);
+                string fileName = string.Format("{0:0000}_{1}.jpg", random.Next() % 10000, image.Key);
+                var file = await quizFolder.CreateFileAsync(fileName);
+                var response = await httpClient.GetAsync(image.Value);
+
+                using (var inputStream = await response.Content.ReadAsInputStreamAsync())
+                {
+                    using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        await RandomAccessStream.CopyAndCloseAsync(inputStream, outputStream);
+                    }
+                }
             }
         }
 
