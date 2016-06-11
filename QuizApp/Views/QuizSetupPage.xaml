@@ -70,21 +70,15 @@
             </controls:PageHeader>
 
             <!--  page content  -->
-
             <StackPanel Grid.Row="1" VerticalAlignment="Top"
-                    Orientation="Horizontal" Padding="12,8,0,0" Height="40">
+                    Orientation="Horizontal" Padding="15,0,0,0" Height="40">
 
                 <Button Margin="12,0" VerticalAlignment="Bottom"
                     Click="{x:Bind ViewModel.SelectFiles}" Content="Select Files" />
             </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Vertical" Padding="12,8,0,0">
-                <TextBox Margin="12,0,10,0" Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="317" AcceptsReturn="True" />
-                <Button Background="Purple" Foreground="White" Click="{x:Bind ViewModel.Search}" Margin="15,0,0,0" Padding="15">
-                    <StackPanel Orientation="Vertical">
-                        <SymbolIcon Symbol="Find" />
-                        <TextBlock Text="Search" />
-                    </StackPanel>
-                </Button>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Padding="15,0,0,0">
+                <TextBox Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="300" Width="400" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                <Button Content="Search" Click="{x:Bind ViewModel.Search}" Margin="15,0,0,0" />
             </StackPanel>
             <GridView Grid.Row="3" ItemsSource="{x:Bind ViewModel.ImageResults}" SelectionMode="None">
                 <GridView.ItemTemplate>
@@ -99,12 +93,10 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-            <Button Grid.Row="4" Background="Purple" Foreground="White" Click="{x:Bind ViewModel.Generate}" Margin="15,0,0,0" Padding="15">
-                <StackPanel Orientation="Vertical">
-                    <SymbolIcon Symbol="Add" />
-                    <TextBlock Text="Generate Quiz" />
-                </StackPanel>
-            </Button>
+            <StackPanel Grid.Row="4" Orientation="Vertical">
+                <Button Content="Generate Quiz" Click="{x:Bind ViewModel.Generate}" Margin="15,0,0,0" />
+                <ProgressRing IsActive="{x:Bind ViewModel.Busy}" />
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </Page>

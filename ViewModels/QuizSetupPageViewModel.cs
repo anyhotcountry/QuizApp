@@ -13,6 +13,7 @@ namespace QuizApp.ViewModels
         private readonly IImageSearchService imageSearchService;
         private readonly IQuestionsService questionsService;
         private string questions;
+        private bool busy;
 
         public QuizSetupPageViewModel(IQuestionsService questionsService, IImageSearchService imageSearchService)
         {
@@ -24,6 +25,12 @@ namespace QuizApp.ViewModels
         {
             get { return questions; }
             set { Set(ref questions, value); }
+        }
+
+        public bool Busy
+        {
+            get { return busy; }
+            set { Set(ref busy, value); }
         }
 
         public ObservableCollection<ImageResultsViewModel> ImageResults { get; } = new ObservableCollection<ImageResultsViewModel>();
@@ -71,8 +78,10 @@ namespace QuizApp.ViewModels
 
         public async Task Generate()
         {
+            Busy = true;
             var otherQuestions = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Where(w => w.Contains(">")).Select(w => w.Split('>')).ToDictionary(x => x[1].Trim(), x => x[0].Trim());
             await questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem.Uri), otherQuestions);
+            Busy = false;
         }
     }
 }
