@@ -18,6 +18,8 @@ namespace QuizApp.ViewModels
         private bool stopped;
         private double questionWidth;
         private int countDown;
+        private string message;
+        private string answer;
 
         public event EventHandler QuestionFinished;
 
@@ -25,7 +27,7 @@ namespace QuizApp.ViewModels
         {
             this.filename = filename;
             QuestionIndex = index;
-            CountDown = 20;
+            countDown = 20;
             random = new Random();
             this.mediaService = mediaService;
             this.questionsService = questionsService;
@@ -41,11 +43,11 @@ namespace QuizApp.ViewModels
             set { Set(ref question, value); }
         }
 
-        public int CountDown
+        public string Message
         {
-            get { return countDown; }
+            get { return message; }
 
-            set { Set(ref countDown, value); }
+            set { Set(ref message, value); }
         }
 
         public int QuestionIndex
@@ -75,20 +77,24 @@ namespace QuizApp.ViewModels
 
         public void End()
         {
-            CountDown = 1;
+            countDown = 1;
         }
 
         private async void GameTimerOnTick()
         {
             gameTimer.Stop();
-            CountDown--;
-            if (CountDown < 11 && CountDown >= 0)
+            countDown--;
+            Message = countDown.ToString();
+            if (countDown < 11 && countDown >= 0)
             {
-                await mediaService.SpeakAsync(CountDown.ToString());
+                await mediaService.SpeakAsync(Message);
             }
 
-            if (CountDown < 0)
+            if (countDown < 0)
             {
+                Message = answer;
+                await mediaService.SpeakAsync(answer);
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 QuestionFinished?.Invoke(this, EventArgs.Empty);
             }
             else
@@ -102,6 +108,7 @@ namespace QuizApp.ViewModels
             gameTimer.Interval = TimeSpan.FromSeconds(1);
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
+            answer = questionsService.GetAnswer(filename);
             QuestionWidth = 3 * Question.Length;
             gameTimer.Start();
             await mediaService.SpeakAsync("Action Challenge: " + Question);

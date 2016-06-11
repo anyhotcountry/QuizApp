@@ -6,6 +6,6 @@ namespace QuizApp.Services
 {
     public interface IImageSearchService
     {
-        Task<IEnumerable<Uri>> Search(string query, int count);
+        Task<IEnumerable<Uri>> Search(string query);
     }
 }

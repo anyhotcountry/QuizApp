@@ -55,12 +55,16 @@ namespace QuizApp.ViewModels
 
             foreach (var query in newQueries)
             {
-                var imageResultsViewModel = new ImageResultsViewModel { Name = query };
-                ImageResults.Add(imageResultsViewModel);
-                var sources = await imageSearchService.Search(query, 20);
-                foreach (var source in sources)
+                var sources = (await imageSearchService.Search(query)).ToList();
+
+                if (sources.Any())
                 {
-                    imageResultsViewModel.Images.Add(new ImageViewModel { Uri = source });
+                    var imageResultsViewModel = new ImageResultsViewModel { Name = query };
+                    ImageResults.Add(imageResultsViewModel);
+                    foreach (var source in sources)
+                    {
+                        imageResultsViewModel.Images.Add(new ImageViewModel { Uri = source });
+                    }
                 }
             }
         }
