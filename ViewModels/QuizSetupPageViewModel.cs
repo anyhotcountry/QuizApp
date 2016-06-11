@@ -44,15 +44,16 @@ namespace QuizApp.ViewModels
 
         public async Task Search()
         {
-            if (string.IsNullOrEmpty(questions))
+            var previousWords = ImageResults.Select(r => r.Name).ToList();
+            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Where(w => !w.Contains(">")).Select(w => char.ToUpper(w[0]) + w.Substring(1)).ToList();
+            var newQueries = queries.Where(w => !previousWords.Contains(w));
+            var resultsToDelete = ImageResults.Where(r => !queries.Contains(r.Name)).ToList();
+            foreach (var result in resultsToDelete)
             {
-                return;
+                ImageResults.Remove(result);
             }
 
-            var previousWords = ImageResults.Select(r => r.Name).ToList();
-            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpper(w[0]) + w.Substring(1))
-                .Where(w => !previousWords.Contains(w));
-            foreach (var query in queries)
+            foreach (var query in newQueries)
             {
                 var imageResultsViewModel = new ImageResultsViewModel { Name = query };
                 ImageResults.Add(imageResultsViewModel);
@@ -66,7 +67,8 @@ namespace QuizApp.ViewModels
 
         public async Task Generate()
         {
-            await questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem.Uri));
+            var otherQuestions = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Where(w => w.Contains(">")).Select(w => w.Split('>')).ToDictionary(x => x[1].Trim(), x => x[0].Trim());
+            await questionsService.SaveQuiz(ImageResults.ToDictionary(x => x.Name, x => x.SelectedItem.Uri), otherQuestions);
         }
     }
 }

@@ -14,6 +14,6 @@ namespace QuizApp.Services
 
         Task<IList<string>> GetAnswersListAsync();
 
-        Task SaveQuiz(IDictionary<string, Uri> images);
+        Task SaveQuiz(IDictionary<string, Uri> images, IDictionary<string, string> otherQuestions);
     }
 }

@@ -63,7 +63,7 @@ namespace QuizApp.Services
             }
         }
 
-        public async Task SaveQuiz(IDictionary<string, Uri> images)
+        public async Task SaveQuiz(IDictionary<string, Uri> images, IDictionary<string, string> otherQuestions)
         {
             var folders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
             var quizFolder = folders.FirstOrDefault(f => f.Name == "Quiz");
@@ -76,7 +76,8 @@ namespace QuizApp.Services
             quizFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Quiz");
             foreach (var image in images)
             {
-                string fileName = string.Format("{0:0000}_{1}.jpg", random.Next() % 10000, image.Key);
+                var extension = image.Value.AbsolutePath.EndsWith("png", StringComparison.OrdinalIgnoreCase) ? "png" : "jpg";
+                string fileName = string.Format("{0:0000}_{1}.{2}", random.Next() % 10000, image.Key, extension);
                 var file = await quizFolder.CreateFileAsync(fileName);
                 var response = await httpClient.GetAsync(image.Value);
 
@@ -87,6 +88,13 @@ namespace QuizApp.Services
                         await RandomAccessStream.CopyAndCloseAsync(inputStream, outputStream);
                     }
                 }
+            }
+
+            foreach (var question in otherQuestions)
+            {
+                string fileName = string.Format("{0:0000}_{1}", random.Next() % 10000, question.Key);
+                var file = await quizFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, question.Value);
             }
         }
 

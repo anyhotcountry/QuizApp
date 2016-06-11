@@ -95,12 +95,12 @@ namespace QuizApp.ViewModels
             {
                 var filename = questions[questionIndex];
                 var extension = Path.GetExtension(filename);
-                if (extension == ".txt")
+                if (extension == ".trivia")
                 {
                     CurrentViewModel = new TriviaQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
-                else if (extension == ".jq")
+                else if (extension == ".jumble")
                 {
                     CurrentViewModel = new JumbleQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
