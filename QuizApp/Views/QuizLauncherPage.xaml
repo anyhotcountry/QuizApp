@@ -7,6 +7,7 @@
       xmlns:controls="using:Template10.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:QuizApp.Views"
+      xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:QuizApp.ViewModels" x:Name="ThisPage"
       mc:Ignorable="d">
@@ -15,18 +16,22 @@
         <Binding Path="QuizLauncherPageViewModel" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
+    <Page.Resources>
+        <helpers:DynamicDataTemplateSelector x:Key="DynamicDataTemplateSelector" />
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="400" />
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Quiz Launch Page" Frame="{x:Bind Frame}">
         </controls:PageHeader>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Top"
-                    Orientation="Horizontal" Padding="12,8,0,0" >
+                    Orientation="Horizontal" Padding="12,8,12,0">
             <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.ControlCommand}" Margin="15,0,0,0" Padding="15">
                 <StackPanel Orientation="Vertical">
                     <SymbolIcon Symbol="{Binding Path=ControlSymbol}" />
@@ -39,7 +44,17 @@
                     <TextBlock Text="Next Question" />
                 </StackPanel>
             </Button>
+            <Button Background="Purple" Foreground="White" Click="{x:Bind ViewModel.QuizPageViewModel.Start}" Margin="15,0,0,0" Padding="15">
+                <StackPanel Orientation="Vertical">
+                    <SymbolIcon Symbol="Preview" />
+                    <TextBlock Text="Preview" />
+                </StackPanel>
+            </Button>
         </StackPanel>
+        <Grid Grid.Row="2" Margin="15">
+            <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding QuizPageViewModel.CurrentViewModel}"
+                        ContentTemplateSelector="{StaticResource DynamicDataTemplateSelector}" />
+            <ContentControl Content="{x:Bind ViewModel.QuizPageViewModel.SoundPlayer}" />
+        </Grid>
     </Grid>
 </Page>
-

@@ -16,6 +16,7 @@ namespace QuizApp.ViewModels
         private readonly Random random;
         private readonly string filename;
         private readonly IQuestionsService questionsService;
+        private readonly bool isPreview;
         private string answer;
         private int questionIndex = 1;
         private bool stopped;
@@ -23,9 +24,10 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
-        public JumbleQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
+        public JumbleQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService, bool isPreview)
         {
             this.filename = filename;
+            this.isPreview = isPreview;
             QuestionIndex = index;
             random = new Random();
             this.mediaService = mediaService;
@@ -100,11 +102,7 @@ namespace QuizApp.ViewModels
         private async Task ShowQuestion()
         {
             answer = questionsService.GetAnswer(filename).ToUpper();
-#if DEBUG
-            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / answer.Length);
-#else
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / answer.Length);
-#endif
+            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)answer.Length);
 
             foreach (var letter in answer.Select((l, i) => new { Letter = l.ToString(), Position = i }).OrderBy(x => Guid.NewGuid()))
             {

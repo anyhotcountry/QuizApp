@@ -15,13 +15,15 @@ namespace QuizApp.ViewModels
         private readonly IMediaService mediaService;
         private readonly IQuizController quizController;
         private readonly CoreDispatcher dispatcher;
+        private readonly bool isPreview;
         private int questionIndex;
         private IQuestionViewModel currentViewModel;
         private bool stopped = true;
 
-        public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IQuizController quizController)
+        public QuizPageViewModel(IQuestionsService questionsService, IMediaService mediaService, IQuizController quizController, bool isPreview)
         {
             this.questionsService = questionsService;
+            this.isPreview = isPreview;
             questions = new List<string>();
             this.mediaService = mediaService;
             this.quizController = quizController;
@@ -66,8 +68,9 @@ namespace QuizApp.ViewModels
             stopped = true;
         }
 
-        public async Task OnLoaded()
+        public async Task Start()
         {
+            questionIndex = 0;
             stopped = false;
             await LoadQuestions().ConfigureAwait(false);
         }
@@ -97,22 +100,22 @@ namespace QuizApp.ViewModels
                 var extension = Path.GetExtension(filename);
                 if (extension == ".trivia")
                 {
-                    CurrentViewModel = new TriviaQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
+                    CurrentViewModel = new TriviaQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
                 else if (extension == ".jumble")
                 {
-                    CurrentViewModel = new JumbleQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
+                    CurrentViewModel = new JumbleQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
                 else if (extension == ".jpg" || extension == ".png")
                 {
-                    CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService);
+                    CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
                 else if (extension == ".action")
                 {
-                    CurrentViewModel = new ActionChallengeViewModel(filename, ++questionIndex, questionsService, mediaService);
+                    CurrentViewModel = new ActionChallengeViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
                 else

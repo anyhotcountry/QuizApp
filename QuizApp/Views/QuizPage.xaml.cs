@@ -15,7 +15,7 @@ namespace QuizApp.Views
 
         private async void PageOnLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await ViewModel.OnLoaded();
+            await ViewModel.Start();
         }
 
         private void PageOnUnloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)

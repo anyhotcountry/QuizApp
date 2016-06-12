@@ -13,6 +13,7 @@ namespace QuizApp.ViewModels
         private readonly Random random;
         private readonly string filename;
         private readonly IQuestionsService questionsService;
+        private readonly bool isPreview;
         private string question;
         private int questionIndex = 1;
         private bool stopped;
@@ -23,11 +24,12 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
-        public ActionChallengeViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
+        public ActionChallengeViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService, bool isPreview)
         {
             this.filename = filename;
+            this.isPreview = isPreview;
             QuestionIndex = index;
-            countDown = 20;
+            countDown = isPreview ? 3 : 20;
             random = new Random();
             this.mediaService = mediaService;
             this.questionsService = questionsService;

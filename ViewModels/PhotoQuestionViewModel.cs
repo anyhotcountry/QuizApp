@@ -15,6 +15,7 @@ namespace QuizApp.ViewModels
         private readonly Random random;
         private readonly string filename;
         private readonly IQuestionsService questionsService;
+        private readonly bool isPreview;
         private string answer;
         private BitmapImage imageSource;
         private bool isCollapsed = true;
@@ -24,9 +25,10 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
-        public PhotoQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
+        public PhotoQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService, bool isPreview)
         {
             this.filename = filename;
+            this.isPreview = isPreview;
             QuestionIndex = index;
             random = new Random();
             this.mediaService = mediaService;
@@ -136,11 +138,7 @@ namespace QuizApp.ViewModels
             img.SetSource(fileStream);
 
             ImageSource = img;
-#if DEBUG
-            takeCount = 20;
-#else
-            takeCount = 1;
-#endif
+            takeCount = isPreview ? 40 : 1;
         }
     }
 }

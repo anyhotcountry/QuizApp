@@ -13,10 +13,11 @@ namespace QuizApp.ViewModels
         private Symbol controlSymbol;
         private string controlText;
 
-        public QuizLauncherPageViewModel(IQuizController quizController, IPresentationService presentationService)
+        public QuizLauncherPageViewModel(IQuizController quizController, IPresentationService presentationService, QuizPageViewModel quizPageViewModel)
         {
             this.quizController = quizController;
             this.presentationService = presentationService;
+            this.QuizPageViewModel = quizPageViewModel;
             ControlCommand = new DelegateCommand(ControlExecute);
             NextCommand = new DelegateCommand(NextExecute);
             ControlText = "Launch Quiz";
@@ -40,6 +41,8 @@ namespace QuizApp.ViewModels
 
             set { Set(ref controlText, value); }
         }
+
+        public QuizPageViewModel QuizPageViewModel { get; }
 
         private async void ControlExecute()
         {

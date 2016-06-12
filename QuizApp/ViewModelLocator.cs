@@ -16,7 +16,12 @@ namespace QuizApp
         {
             get
             {
-                return new QuizPageViewModel(new QuestionsService(), new MediaService(), quizController.Value);
+#if DEBUG
+                var isPreview = true;
+#else
+                var isPreview = false;
+#endif
+                return new QuizPageViewModel(new QuestionsService(), new MediaService(), quizController.Value, isPreview);
             }
         }
 
@@ -24,7 +29,8 @@ namespace QuizApp
         {
             get
             {
-                return new QuizLauncherPageViewModel(quizController.Value, new PresentationService(typeof(QuizPage)));
+                var quizPageViewModel = new QuizPageViewModel(new QuestionsService(), new MediaService(), quizController.Value, true);
+                return new QuizLauncherPageViewModel(quizController.Value, new PresentationService(typeof(QuizPage)), quizPageViewModel);
             }
         }
 

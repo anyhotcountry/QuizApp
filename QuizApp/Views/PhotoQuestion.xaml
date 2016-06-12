@@ -28,7 +28,7 @@
                 BorderBrush="DarkBlue"
                 BorderThickness="5"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+                VerticalAlignment="Bottom"
                 CornerRadius="25"
                 Visibility="{Binding IsCollapsed, Converter={StaticResource FalseToVisibleConverter}}">
             <Border.RenderTransform>
@@ -40,7 +40,7 @@
                    Foreground="DarkBlue"
                    TextLineBounds="Full"
                    Text="{Binding Path=Answer}"
-                   FontSize="100">
+                   FontSize="75">
             </TextBlock>
         </Border>
         <Viewbox x:Name="BlocksViewBox" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

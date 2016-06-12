@@ -15,6 +15,7 @@ namespace QuizApp.ViewModels
         private readonly Random random;
         private readonly string filename;
         private readonly IQuestionsService questionsService;
+        private readonly bool isPreview;
         private string answer;
         private string question;
         private int questionIndex = 1;
@@ -24,9 +25,10 @@ namespace QuizApp.ViewModels
 
         public event EventHandler QuestionFinished;
 
-        public TriviaQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService)
+        public TriviaQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService, bool isPreview)
         {
             this.filename = filename;
+            this.isPreview = isPreview;
             QuestionIndex = index;
             random = new Random();
             this.mediaService = mediaService;
@@ -121,12 +123,6 @@ namespace QuizApp.ViewModels
         private async Task ShowQuestion()
         {
             Answer = questionsService.GetAnswer(filename).ToUpper();
-#if DEBUG
-            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
-#else
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / Answer.Length);
-#endif
-
             for (var i = 0; i < Answer.Length; i++)
             {
                 Letters.Add(new LetterViewModel { Letter = Answer[i].ToString(), Visible = false, Position = i });
@@ -136,11 +132,7 @@ namespace QuizApp.ViewModels
             var file = await StorageFile.GetFileFromPathAsync(filename);
             Question = await FileIO.ReadTextAsync(file);
             QuestionWidth = 2.5 * Question.Length;
-#if DEBUG
-            gameTimer.Interval = TimeSpan.FromMilliseconds(10000 / Answer.Length);
-#else
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30000 / Answer.Length);
-#endif
+            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)Answer.Length);
             gameTimer.Start();
             await mediaService.SpeakAsync(Question);
         }

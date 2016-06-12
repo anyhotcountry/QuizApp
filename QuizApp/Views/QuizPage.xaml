@@ -10,7 +10,7 @@
       xmlns:helpers="using:QuizApp.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:QuizApp.ViewModels"
-      mc:Ignorable="d" Loaded="PageOnLoaded" Unloaded="PageOnUnloaded"  >
+      mc:Ignorable="d" Loaded="PageOnLoaded" Unloaded="PageOnUnloaded">
 
     <Page.Resources>
         <helpers:DynamicDataTemplateSelector x:Key="DynamicDataTemplateSelector" />
@@ -21,9 +21,8 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding Path=CurrentViewModel}" 
+        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding Path=CurrentViewModel}"
                         ContentTemplateSelector="{StaticResource DynamicDataTemplateSelector}" />
         <ContentControl Content="{Binding Path=SoundPlayer}" />
     </Grid>
 </Page>
-    
