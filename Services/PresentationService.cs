@@ -10,10 +10,12 @@ namespace QuizApp.Services
 {
     public class PresentationService : IPresentationService
     {
+        private readonly IQuizController quizController;
         private readonly Type sourcePageType;
 
-        public PresentationService(Type sourcePageType)
+        public PresentationService(IQuizController quizController, Type sourcePageType)
         {
+            this.quizController = quizController;
             this.sourcePageType = sourcePageType;
         }
 
@@ -29,12 +31,25 @@ namespace QuizApp.Services
                 var rootFrame = new Frame();
                 rootFrame.Navigate(sourcePageType, null);
                 Window.Current.Content = rootFrame;
+                ApplicationView.GetForCurrentView().Consolidated += PresentationServiceOnConsolidated;
                 Window.Current.Activate();
             });
 
             if (secondViewId.HasValue)
             {
                 await ProjectionManager.StartProjectingAsync(secondViewId.Value, mainViewId);
+            }
+        }
+
+        private void PresentationServiceOnConsolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            try
+            {
+                quizController.StopQuiz();
+            }
+            catch (Exception)
+            {
+                // Ignored
             }
         }
     }

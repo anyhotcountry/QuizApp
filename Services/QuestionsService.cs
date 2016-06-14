@@ -96,6 +96,20 @@ namespace QuizApp.Services
                 var file = await quizFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteTextAsync(file, question.Value);
             }
+
+            var picker = new FolderPicker();
+            picker.ViewMode = PickerViewMode.List;
+            picker.SuggestedStartLocation = PickerLocationId.Downloads;
+            picker.FileTypeFilter.Add("*");
+            var exportFolder = await picker.PickSingleFolderAsync();
+            if (exportFolder != null)
+            {
+                var files = await quizFolder.GetFilesAsync();
+                foreach (var quizFile in files)
+                {
+                    await quizFile.CopyAsync(exportFolder, quizFile.Name.Substring(4));
+                }
+            }
         }
 
         public string GetAnswer(string filename)

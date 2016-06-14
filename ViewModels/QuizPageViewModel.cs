@@ -75,6 +75,12 @@ namespace QuizApp.ViewModels
             await LoadQuestions().ConfigureAwait(false);
         }
 
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            OnUnLoaded();
+            return base.OnNavigatedFromAsync(state, suspending);
+        }
+
         private async Task LoadQuestions()
         {
             var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Quiz");
@@ -133,7 +139,10 @@ namespace QuizApp.ViewModels
 
         private void CurrentViewModelOnQuestionFinished(object sender, EventArgs e)
         {
-            ChangeViewModel();
+            if (!stopped)
+            {
+                ChangeViewModel();
+            }
         }
     }
 }

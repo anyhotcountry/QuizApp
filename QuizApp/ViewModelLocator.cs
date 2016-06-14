@@ -30,7 +30,7 @@ namespace QuizApp
             get
             {
                 var quizPageViewModel = new QuizPageViewModel(new QuestionsService(), new MediaService(), quizController.Value, true);
-                return new QuizLauncherPageViewModel(quizController.Value, new PresentationService(typeof(QuizPage)), quizPageViewModel);
+                return new QuizLauncherPageViewModel(quizController.Value, new PresentationService(quizController.Value, typeof(QuizPage)), quizPageViewModel);
             }
         }
 

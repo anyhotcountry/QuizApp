@@ -1,4 +1,6 @@
 using QuizApp.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.UI.Xaml.Controls;
 
@@ -43,6 +45,12 @@ namespace QuizApp.ViewModels
         }
 
         public QuizPageViewModel QuizPageViewModel { get; }
+
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            QuizPageViewModel.OnUnLoaded();
+            return base.OnNavigatedFromAsync(state, suspending);
+        }
 
         private async void ControlExecute()
         {
