@@ -16,32 +16,32 @@
                 <Controls:HamburgerMenu.PrimaryButtons>
                     <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:QuizLauncherPage">
                         <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Width="48" Height="48" Symbol="Emoji" />
+                            <SymbolIcon Width="48" Height="48" Symbol="View" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Quiz" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
                     <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:QuizSetupPage">
                         <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Width="48" Height="48" Symbol="Home" />
+                            <SymbolIcon Width="48" Height="48" Symbol="Edit" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Setup Quiz" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
                     <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:AnswersPage">
                         <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Width="48" Height="48" Symbol="Bullets" />
+                            <SymbolIcon Width="48" Height="48" Symbol="TwoPage" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Answers" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
                 </Controls:HamburgerMenu.PrimaryButtons>
 
-                <Controls:HamburgerMenu.SecondaryButtons>
+                <!--<Controls:HamburgerMenu.SecondaryButtons>
                     <Controls:HamburgerButtonInfo PageType="views:SettingsPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Setting" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Settings" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
-                </Controls:HamburgerMenu.SecondaryButtons>
+                </Controls:HamburgerMenu.SecondaryButtons>-->
             </Controls:HamburgerMenu>
         </Controls:ModalDialog.Content>
         <Controls:ModalDialog.ModalContent>

@@ -28,23 +28,26 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Quiz Launch Page" Frame="{x:Bind Frame}">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:EllipsisBehavior Visibility="Auto" />
+            </Interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Top"
-                    Orientation="Horizontal" Padding="12,8,12,0">
-            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.ControlCommand}" Margin="15,0,0,0" Padding="15">
+                    Orientation="Vertical" Padding="15" HorizontalAlignment="Left">
+            <Button Background="Purple" Foreground="White" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.ControlCommand}" Margin="12" Padding="15">
                 <StackPanel Orientation="Vertical">
                     <SymbolIcon Symbol="{Binding Path=ControlSymbol}" />
                     <TextBlock Text="{Binding Path=ControlText}" />
                 </StackPanel>
             </Button>
-            <Button Background="Purple" Foreground="White" Command="{x:Bind ViewModel.NextCommand}" Margin="15,0,0,0" Padding="15">
+            <Button Background="Purple" Foreground="White" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.NextCommand}" Margin="12" Padding="15">
                 <StackPanel Orientation="Vertical">
                     <SymbolIcon Symbol="Next" />
                     <TextBlock Text="Next Question" />
                 </StackPanel>
             </Button>
-            <Button Background="Purple" Foreground="White" Click="{x:Bind ViewModel.QuizPageViewModel.Start}" Margin="15,0,0,0" Padding="15">
+            <Button Background="Purple" Foreground="White" HorizontalAlignment="Stretch" Click="{x:Bind ViewModel.QuizPageViewModel.Start}" Margin="12" Padding="15">
                 <StackPanel Orientation="Vertical">
                     <SymbolIcon Symbol="Preview" />
                     <TextBlock Text="Preview" />

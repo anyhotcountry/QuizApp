@@ -16,87 +16,84 @@
     <Page.Resources>
         <CollectionViewSource x:Name="groupedItemsViewSource"  IsSourceGrouped="True" Source="{Binding Path=ImageResults}" ItemsPath="Images" />
     </Page.Resources>
+    <Page.BottomAppBar>
+        <AppBar IsSticky="True">
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Icon="OpenFile" Label="Open" Click="{x:Bind ViewModel.SelectFiles}" />
+                <AppBarButton Icon="Save" Label="Create" Click="{x:Bind ViewModel.Generate}" />
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
 
-    <ScrollViewer Margin="5" HorizontalScrollBarVisibility="Disabled">
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-            <!--  #region default visual states  -->
+        <!--  #region default visual states  -->
 
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-                    <VisualState x:Name="VisualStateNarrow">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <!--  TODO  -->
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="VisualStateNormal">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <!--  TODO  -->
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="VisualStateWide">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <!--  TODO  -->
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-            <!--  #endregion  -->
+        <!--  #endregion  -->
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <!--  page header  -->
+        <!--  page header  -->
 
-            <controls:PageHeader BackButtonVisibility="Collapsed" Content="Main Page" Frame="{x:Bind Frame}" Height="48">
-                <Interactivity:Interaction.Behaviors>
-                    <Behaviors:EllipsisBehavior Visibility="Auto" />
-                </Interactivity:Interaction.Behaviors>
-            </controls:PageHeader>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Setup Quiz" Frame="{x:Bind Frame}" Height="48">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:EllipsisBehavior Visibility="Auto" />
+            </Interactivity:Interaction.Behaviors>
+        </controls:PageHeader>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
 
             <!--  page content  -->
-            <StackPanel Grid.Row="1" VerticalAlignment="Top"
-                    Orientation="Horizontal" Padding="15,0,0,0" Height="40">
-
-                <Button Margin="12,0" VerticalAlignment="Bottom"
-                    Click="{x:Bind ViewModel.SelectFiles}" Content="Select Files" />
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="15">
+                <controls:Resizer>
+                    <TextBox Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="100" Width="200" MinWidth="200" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </controls:Resizer>
+                <Button Content="Search" VerticalAlignment="Bottom" Click="{x:Bind ViewModel.Search}" Margin="12" />
+                <GridView ItemsSource="{x:Bind ViewModel.ImageResults}" SelectionMode="None">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ImageResultsViewModel">
+                            <FlipView Height="200" MaxWidth="300" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding Path=Images}">
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:ImageViewModel">
+                                        <Image Height="200" Source="{x:Bind ImageSource}" Stretch="Uniform" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
             </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Vertical" Padding="15,0,0,0">
-                <TextBox Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="300" Width="400" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" />
-                <Button Content="Search" Click="{x:Bind ViewModel.Search}" Margin="15,0,0,0" />
-            </StackPanel>
-            <GridView Grid.Row="3" ItemsSource="{x:Bind ViewModel.ImageResults}" SelectionMode="None">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ImageResultsViewModel">
-                        <FlipView Height="200" MaxWidth="300" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding Path=Images}">
-                            <FlipView.ItemTemplate>
-                                <DataTemplate x:DataType="vm:ImageViewModel">
-                                    <Image Height="200" Source="{x:Bind ImageSource}" Stretch="Uniform" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </FlipView.ItemTemplate>
-                        </FlipView>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-            <StackPanel Grid.Row="4" Orientation="Vertical">
-                <Button Content="Generate Quiz" Click="{x:Bind ViewModel.Generate}" Margin="15,0,0,0" />
-                <ProgressRing IsActive="{x:Bind ViewModel.Busy}" />
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </Page>
