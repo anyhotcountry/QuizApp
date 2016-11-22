@@ -17,14 +17,13 @@
         <CollectionViewSource x:Name="groupedItemsViewSource"  IsSourceGrouped="True" Source="{Binding Path=ImageResults}" ItemsPath="Images" />
     </Page.Resources>
     <Page.BottomAppBar>
-        <AppBar IsSticky="True">
+        <AppBar IsOpen="True" IsSticky="True">
             <StackPanel Orientation="Horizontal">
                 <AppBarButton Icon="OpenFile" Label="Open" Click="{x:Bind ViewModel.SelectFiles}" />
                 <AppBarButton Icon="Save" Label="Create" Click="{x:Bind ViewModel.Generate}" />
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <!--  #region default visual states  -->
@@ -76,7 +75,7 @@
 
             <!--  page content  -->
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="15">
-                <controls:Resizer>
+                <controls:Resizer HorizontalAlignment="Left">
                     <TextBox Text="{Binding Questions, Mode=TwoWay}" IsReadOnly="False" Height="100" Width="200" MinWidth="200" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" />
                 </controls:Resizer>
                 <Button Content="Search" VerticalAlignment="Bottom" Click="{x:Bind ViewModel.Search}" Margin="12" />
