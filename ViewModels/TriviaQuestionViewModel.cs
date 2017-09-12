@@ -10,33 +10,31 @@ namespace QuizApp.ViewModels
 {
     public class TriviaQuestionViewModel : Mvvm.ViewModelBase, IQuestionViewModel
     {
-        private readonly DispatcherTimer gameTimer;
+        protected readonly DispatcherTimer gameTimer;
+        protected readonly bool isPreview;
         private readonly IMediaService mediaService;
         private readonly Random random;
-        private readonly string filename;
-        private readonly IQuestionsService questionsService;
-        private readonly bool isPreview;
         private string answer;
+        protected IList<LetterViewModel> leftLetters;
         private string question;
         private int questionIndex = 1;
-        private bool stopped;
         private double questionWidth;
-        private IList<LetterViewModel> leftLetters;
-
-        public event EventHandler QuestionFinished;
+        private bool stopped;
 
         public TriviaQuestionViewModel(string filename, int index, IQuestionsService questionsService, IMediaService mediaService, bool isPreview)
         {
-            this.filename = filename;
+            this.Filename = filename;
             this.isPreview = isPreview;
             QuestionIndex = index;
             random = new Random();
             this.mediaService = mediaService;
-            this.questionsService = questionsService;
+            QuestionsService = questionsService;
             gameTimer = new DispatcherTimer();
             gameTimer.Tick += (s, e) => GameTimerOnTick();
             ShowQuestion();
         }
+
+        public event EventHandler QuestionFinished;
 
         public string Answer
         {
@@ -45,14 +43,14 @@ namespace QuizApp.ViewModels
             set { Set(ref answer, value); }
         }
 
+        public ObservableCollection<LetterViewModel> Letters { get; } = new ObservableCollection<LetterViewModel>();
+
         public string Question
         {
             get { return question; }
 
             set { Set(ref question, value); }
         }
-
-        public ObservableCollection<LetterViewModel> Letters { get; } = new ObservableCollection<LetterViewModel>();
 
         public int QuestionIndex
         {
@@ -68,16 +66,8 @@ namespace QuizApp.ViewModels
             set { Set(ref questionWidth, value); }
         }
 
-        public void Stop()
-        {
-            stopped = true;
-        }
-
-        public void Start()
-        {
-            stopped = false;
-            gameTimer.Start();
-        }
+        protected string Filename { get; }
+        protected IQuestionsService QuestionsService { get; }
 
         public void End()
         {
@@ -87,6 +77,34 @@ namespace QuizApp.ViewModels
             }
 
             leftLetters.Clear();
+        }
+
+        public void Start()
+        {
+            stopped = false;
+            gameTimer.Start();
+        }
+
+        public void Stop()
+        {
+            stopped = true;
+        }
+
+        protected virtual async Task ShowQuestion()
+        {
+            Answer = QuestionsService.GetAnswer(Filename).ToUpper();
+            for (var i = 0; i < Answer.Length; i++)
+            {
+                Letters.Add(new LetterViewModel { Letter = Answer[i].ToString(), Visible = false, Position = i });
+            }
+
+            leftLetters = new List<LetterViewModel>(Letters);
+            var file = await StorageFile.GetFileFromPathAsync(Filename);
+            Question = await FileIO.ReadTextAsync(file);
+            QuestionWidth = 2.5 * Question.Length;
+            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)Answer.Length);
+            gameTimer.Start();
+            await mediaService.SpeakAsync(Question);
         }
 
         private async void GameTimerOnTick()
@@ -118,23 +136,6 @@ namespace QuizApp.ViewModels
             {
                 gameTimer.Start();
             }
-        }
-
-        private async Task ShowQuestion()
-        {
-            Answer = questionsService.GetAnswer(filename).ToUpper();
-            for (var i = 0; i < Answer.Length; i++)
-            {
-                Letters.Add(new LetterViewModel { Letter = Answer[i].ToString(), Visible = false, Position = i });
-            }
-
-            leftLetters = new List<LetterViewModel>(Letters);
-            var file = await StorageFile.GetFileFromPathAsync(filename);
-            Question = await FileIO.ReadTextAsync(file);
-            QuestionWidth = 2.5 * Question.Length;
-            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)Answer.Length);
-            gameTimer.Start();
-            await mediaService.SpeakAsync(Question);
         }
     }
 }

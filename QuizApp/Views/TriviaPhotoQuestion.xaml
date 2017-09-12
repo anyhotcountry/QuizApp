@@ -1,0 +1,70 @@
+<UserControl x:Class="QuizApp.Views.TriviaPhotoQuestion"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:QuizApp.Views"
+      xmlns:helpers="using:QuizApp.Helpers"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="using:QuizApp.ViewModels"
+      mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <helpers:BooleanToColourConverter x:Key="ColourConverter" FalseColour="DarkGreen" TrueColour="#66FFFFFF" />
+    </UserControl.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image Name="QuizImage"
+            Source="{Binding Path=ImageSource}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Stretch="Uniform">
+        </Image>
+        <Viewbox HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch">
+            <ItemsControl ItemsSource="{Binding Path=Letters}"
+                          x:Name="ItemsControl">
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection>
+                    </TransitionCollection>
+                </ItemsControl.ItemContainerTransitions>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding Visible, Converter={StaticResource ColourConverter}}" BorderBrush="White" BorderThickness="0" Margin="2">
+                            <TextBlock Margin="0"
+                               Visibility="Visible"
+                               Foreground="DarkGreen"
+                               TextLineBounds="Full"
+                               Text="{Binding Path=Letter}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               FontSize="25" FontFamily="Lucida Console" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Viewbox>
+        <Border Margin="10"
+                Background="Blue"
+                BorderBrush="DarkBlue"
+                BorderThickness="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                CornerRadius="25">
+            <TextBlock Margin="20"
+                   TextLineBounds="Tight"
+                   Name="NumberTextBlock"
+                   Visibility="Visible"
+                   Foreground="Yellow"
+                   Text="{Binding Path=QuestionIndex}"
+                   FontSize="100" />
+        </Border>
+    </Grid>
+</UserControl>

@@ -2,9 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:QuizApp.Views"
                     xmlns:vm="using:QuizApp.ViewModels">
-
     <DataTemplate x:Key="PhotoQuestionViewModelTemplate">
         <local:PhotoQuestion />
+    </DataTemplate>
+    <DataTemplate x:Key="TriviaPhotoQuestionViewModelTemplate">
+        <local:TriviaPhotoQuestion />
     </DataTemplate>
     <DataTemplate x:Key="TriviaQuestionViewModelTemplate">
         <local:TriviaQuestion />

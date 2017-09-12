@@ -1,4 +1,6 @@
+using Newtonsoft.Json;
 using QuizApp.Services;
+using QuizApp.Services.ImageSearch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,10 +53,10 @@ namespace QuizApp.ViewModels
 
         public async Task Search()
         {
-            var previousWords = ImageResults.Select(r => r.Name).ToList();
-            var queries = questions.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Where(w => !w.Contains(">")).Select(w => char.ToUpper(w[0]) + w.Substring(1)).ToList();
+            var previousWords = ImageResults.Select(r => r.Query).ToList();
+            var queries = questions.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).Where(w => !w.Contains(">")).Select(w => char.ToUpper(w[0]) + w.Substring(1)).ToList();
             var newQueries = queries.Where(w => !previousWords.Contains(w));
-            var resultsToDelete = ImageResults.Where(r => !queries.Contains(r.Name)).ToList();
+            var resultsToDelete = ImageResults.Where(r => !queries.Contains(r.Query)).ToList();
             foreach (var result in resultsToDelete)
             {
                 ImageResults.Remove(result);
@@ -62,11 +64,27 @@ namespace QuizApp.ViewModels
 
             foreach (var query in newQueries)
             {
-                var sources = (await imageSearchService.Search(query)).ToList();
+                var optionsPos = query.IndexOf('{');
+                var imageQuery = query;
+                var searchOptions = new SearchOptions();
+                if (optionsPos > 0)
+                {
+                    try
+                    {
+                        searchOptions = JsonConvert.DeserializeObject<SearchOptions>(query.Substring(optionsPos));
+                        imageQuery = query.Substring(0, optionsPos).Trim();
+                    }
+                    catch (Exception)
+                    {
+                        // Do nothing
+                    }
+                }
+                var sources = (await imageSearchService.Search(imageQuery, searchOptions.Animated)).ToList();
+                await Task.Delay(200);
 
                 if (sources.Any())
                 {
-                    var imageResultsViewModel = new ImageResultsViewModel { Name = query };
+                    var imageResultsViewModel = new ImageResultsViewModel { Query = query, Name = searchOptions.Answer ?? imageQuery };
                     ImageResults.Add(imageResultsViewModel);
                     foreach (var source in sources)
                     {

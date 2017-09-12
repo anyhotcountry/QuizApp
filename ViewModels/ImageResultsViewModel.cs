@@ -13,6 +13,8 @@ namespace QuizApp.ViewModels
             set { Set(ref name, value); }
         }
 
+        public string Query { get; set; }
+
         public ImageViewModel SelectedItem
         {
             get { return selectedItem; }

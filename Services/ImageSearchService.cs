@@ -1,23 +1,26 @@
-﻿using Bing;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace QuizApp.Services
 {
     public class ImageSearchService : IImageSearchService
     {
-        public Task<IEnumerable<Uri>> Search(string query)
+        public async Task<IEnumerable<Uri>> Search(string query, bool animated)
         {
-            var bsc = new BingSearchContainer(new Uri("https://api.datamarket.azure.com/Bing/Search/"));
-            bsc.Credentials = new System.Net.NetworkCredential(ApiKey.Key, ApiKey.Key);
-#if NETFX_CORE
-            var webQuery = bsc.Image(query, null, null, "Strict", null, null, "Size:Large");
-#else
-            var webQuery = bsc.Image(query, null, null, "Strict", null, null, "Size:Medium");
-#endif
-            return Task<IEnumerable<Uri>>.Factory.FromAsync(webQuery.BeginExecute, x => webQuery.EndExecute(x).Select(r => new Uri(r.MediaUrl, UriKind.Absolute)), null);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            var animatedQuery = animated ? "&imageType=AnimatedGif" : string.Empty;
+            var uri = $"https://www.googleapis.com/customsearch/v1?cx={ApiKey.Cx}&searchType=image&safe=high&key={ApiKey.Key}&q={WebUtility.UrlEncode(query)}";
+
+            var response = await client.GetAsync(uri);
+            var json = await response.Content.ReadAsStringAsync();
+            var searchResults = JsonConvert.DeserializeObject<SearchResults>(json);
+            return searchResults.items.Select(r => new Uri(r.link));
         }
     }
 }

@@ -11,7 +11,7 @@
     <AssemblyName>QuizApp</AssemblyName>
     <DefaultLanguage>en-us</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -143,6 +143,9 @@
     <Compile Include="Views\ActionChallengePage.xaml.cs">
       <DependentUpon>ActionChallengePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TriviaPhotoQuestion.xaml.cs">
+      <DependentUpon>TriviaPhotoQuestion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TriviaQuestion.xaml.cs">
       <DependentUpon>TriviaQuestion.xaml</DependentUpon>
     </Compile>
@@ -223,6 +226,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ActionChallengePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TriviaPhotoQuestion.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

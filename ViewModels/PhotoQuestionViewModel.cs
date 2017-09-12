@@ -97,7 +97,6 @@ namespace QuizApp.ViewModels
             {
                 if (Blocks.Count != 0)
                 {
-                    var index = random.Next(Blocks.Count);
                     Blocks.RemoveAt(Blocks.Count - 1);
                 }
             }

@@ -114,6 +114,11 @@ namespace QuizApp.ViewModels
                     CurrentViewModel = new JumbleQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
                     CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
                 }
+                else if (filename.Contains(".trivia.") && (extension == ".jpg" || extension == ".png"))
+                {
+                    CurrentViewModel = new TriviaPhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
+                    CurrentViewModel.QuestionFinished += CurrentViewModelOnQuestionFinished;
+                }
                 else if (extension == ".jpg" || extension == ".png")
                 {
                     CurrentViewModel = new PhotoQuestionViewModel(filename, ++questionIndex, questionsService, mediaService, isPreview);
