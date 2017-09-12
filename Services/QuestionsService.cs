@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -115,8 +114,7 @@ namespace QuizApp.Services
         public string GetAnswer(string filename)
         {
             var answer = Path.GetFileNameWithoutExtension(filename);
-            answer = answer.Substring(4).Replace("Zoomed_", string.Empty).Replace("_", " ");
-            answer = Regex.Replace(answer, "(?!^)([A-Z])", " $1").Trim();
+            answer = answer.Substring(4).Replace("_", " ").Trim();
             return answer;
         }
     }

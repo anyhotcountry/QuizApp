@@ -104,7 +104,7 @@ namespace QuizApp.ViewModels
             answer = questionsService.GetAnswer(filename).ToUpper();
             gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)answer.Length);
 
-            foreach (var letter in answer.Select((l, i) => new { Letter = l.ToString(), Position = i }).OrderBy(x => Guid.NewGuid()))
+            foreach (var letter in answer.Select((l, i) => new { Letter = l.ToString().Replace(" ", "_"), Position = i }).OrderBy(x => Guid.NewGuid()))
             {
                 Letters.Add(new LetterViewModel { Letter = letter.Letter, Visible = false, Position = letter.Position });
             }

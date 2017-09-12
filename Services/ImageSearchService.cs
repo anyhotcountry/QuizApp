@@ -15,7 +15,7 @@ namespace QuizApp.Services
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("accept", "application/json");
             var animatedQuery = animated ? "&imageType=AnimatedGif" : string.Empty;
-            var uri = $"https://www.googleapis.com/customsearch/v1?cx={ApiKey.Cx}&searchType=image&safe=high&key={ApiKey.Key}&q={WebUtility.UrlEncode(query)}";
+            var uri = $"https://www.googleapis.com/customsearch/v1?cx={ApiKey.Cx}&searchType=image&safe=high&imgSize=medium&key={ApiKey.Key}&q={WebUtility.UrlEncode(query)}";
 
             var response = await client.GetAsync(uri);
             var json = await response.Content.ReadAsStringAsync();
