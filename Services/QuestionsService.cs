@@ -113,7 +113,7 @@ namespace QuizApp.Services
 
         public string GetAnswer(string filename)
         {
-            var answer = Path.GetFileNameWithoutExtension(filename);
+            var answer = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(filename));
             answer = answer.Substring(4).Replace("_", " ").Trim();
             return answer;
         }

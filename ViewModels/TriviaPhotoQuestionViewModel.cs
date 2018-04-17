@@ -32,7 +32,7 @@ namespace QuizApp.ViewModels
             }
 
             leftLetters = new List<LetterViewModel>(Letters);
-            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 30000) / (double)Answer.Length);
+            gameTimer.Interval = TimeSpan.FromMilliseconds((isPreview ? 5000 : 50000) / (double)Answer.Length);
             gameTimer.Start();
             var file = await StorageFile.GetFileFromPathAsync(Filename);
             var fileStream = await file.OpenAsync(FileAccessMode.Read);

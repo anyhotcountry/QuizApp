@@ -24,7 +24,7 @@
             Stretch="Uniform">
         </Image>
         <Viewbox HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch">
+               VerticalAlignment="Bottom">
             <ItemsControl ItemsSource="{Binding Path=Letters}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemContainerTransitions>
